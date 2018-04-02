@@ -11,6 +11,9 @@ export default {
     leaguesByCountryId: (root, { searchTerm }) => {
         return leagueModel.find({ country: root._id });
     },
+    leaguesBySportId: (root, { searchTerm }) => {
+        return leagueModel.find({ sport: root._id });
+    },
     league: (root, { id }) => {
         if (root) {
             return leagueModel.findOne({ _id: root.module });
@@ -21,6 +24,7 @@ export default {
     addLeague: (root, args) => {
         const model = new leagueModel(args);
         model.country = args.countryId;
+        model.sport = args.sportId;
         model.createdAt = new Date;
         return model.save();
     },
@@ -31,6 +35,7 @@ export default {
                 description: args.description,
                 image: args.image,
                 country: args.countryId,
+                sport: args.sportId,
                 active: args.active,
                 updatedAt: Date.now()
             }
