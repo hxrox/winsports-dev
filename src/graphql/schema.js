@@ -84,6 +84,20 @@ const typeDefs = [`
         deletedBy: String
     }
 
+    type Action {
+        _id: String
+        name: String
+        description: String
+        active: Boolean
+        module: Module
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
     type Query {
         applicationTypes(searchTerm: String): [ApplicationType]
         applicationType(id: String!): ApplicationType
@@ -99,6 +113,9 @@ const typeDefs = [`
 
         modules(searchTerm: String): [Module]
         module(id: String!): Module
+
+        actions(searchTerm: String): [Action]
+        action(id: String!): Action
     }
 
     type Mutation {
@@ -123,6 +140,11 @@ const typeDefs = [`
         editModule(id: String!, name: String!, description: String, moduleId: String, applicationId: String!, active: Boolean): Module
         deleteLogicModule(id: String!): Module
         deleteModule(id: String!): Module
+
+        addAction(name: String!, description: String, moduleId: String!, applicationId: String!): Action
+        editAction(id: String!, name: String!, description: String, moduleId: String!, active: Boolean): Action
+        deleteLogicAction(id: String!): Action
+        deleteAction(id: String!): Action
     }
 `];
 
