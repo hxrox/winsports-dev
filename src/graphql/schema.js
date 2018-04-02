@@ -127,6 +127,22 @@ const typeDefs = [`
         name: String
         code: String
         image: String
+        leagues: [League]
+        active: Boolean
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
+    type League { 
+        _id: String
+        name: String
+        description: String
+        image: String
+        country: Country
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -160,6 +176,9 @@ const typeDefs = [`
 
         countries(searchTerm: String): [Country]
         country(id: String!): Country
+
+        leagues(searchTerm: String): [League]
+        league(id: String!): League
     }
 
     type Mutation {
@@ -199,6 +218,11 @@ const typeDefs = [`
         editCountry(id: String!, name: String!, code: String, image: String!, active: Boolean): Country
         deleteLogicCountry(id: String!): Country
         deleteCountry(id: String!): Country
+
+        addLeague(name: String!, description: String, image: String!, countryId: String!): League
+        editLeague(id: String!, name: String!, description: String, image: String!, countryId: String!, active: Boolean): League
+        deleteLogicLeague(id: String!): League
+        deleteLeague(id: String!): League
     }
 `];
 
