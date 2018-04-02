@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const applicationSchema = new Schema({
+const moduleSchema = new Schema({
     name: {
         type: String,
         required: [true, 'name is required']
@@ -10,31 +10,18 @@ const applicationSchema = new Schema({
     description: {
         type: String
     },
-    clientId: {
-        type: String,
-        required: [true, 'clientId is required']
+    module: {
+        type: Schema.Types.ObjectId,
+        ref: 'modules'
     },
-    clientSecret: {
-        type: String,
-        required: [true, 'clientSecret is required']
-    },
-    version: {
-        type: String,
-        default: '1.0.0'
-    },
-    iosId: {
-        type: String
-    },
-    androidId: {
-        type: String
+    application: {
+        type: Schema.Types.ObjectId,
+        ref: 'applications',
+        required: [true, 'application is required']
     },
     active: {
         type: Boolean,
         default: true
-    },
-    applicationType: {
-        type: Schema.Types.ObjectId,
-        ref: 'application_types'
     },
     createdAt: {
         type: Date,
@@ -60,8 +47,8 @@ const applicationSchema = new Schema({
     }
 });
 
-applicationSchema.index({ '$**': 'text' });
+moduleSchema.index({ '$**': 'text' });
 
-const model = mongoose.model('applications', applicationSchema);
+const model = mongoose.model('modules', moduleSchema);
 
 export default model;
