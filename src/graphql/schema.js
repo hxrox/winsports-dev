@@ -122,6 +122,20 @@ const typeDefs = [`
         deletedBy: String
     }
 
+    type Country { 
+        _id: String
+        name: String
+        code: String
+        image: String
+        active: Boolean
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
     type Query {
         applicationTypes(searchTerm: String): [ApplicationType]
         applicationType(id: String!): ApplicationType
@@ -143,6 +157,9 @@ const typeDefs = [`
 
         roles(searchTerm: String): [Role]
         role(id: String!): Role
+
+        countries(searchTerm: String): [Country]
+        country(id: String!): Country
     }
 
     type Mutation {
@@ -177,6 +194,11 @@ const typeDefs = [`
         editRole(id: String!, name: String!, description: String, applicationId: String!, active: Boolean, actions: [String]): Role
         deleteLogicRole(id: String!): Role
         deleteRole(id: String!): Role
+
+        addCountry(name: String!, code: String, image: String!): Country
+        editCountry(id: String!, name: String!, code: String, image: String!, active: Boolean): Country
+        deleteLogicCountry(id: String!): Country
+        deleteCountry(id: String!): Country
     }
 `];
 
