@@ -3,16 +3,20 @@ import applicationModel from '../../models/application.model';
 export default {
     applications: (root, { searchTerm }) => {
         if (searchTerm) {
-            return applicationModel.find({ $text: { $search: searchTerm } }).populate('applicationType');
+            return applicationModel.find({ $text: { $search: searchTerm } });
         } else {
-            return applicationModel.find().populate('applicationType');
+            return applicationModel.find();
         }
     },
     applicationsByApplicationType: (root) => {
-        return applicationModel.find({ applicationType: root._id }).populate('applicationType');
+        return applicationModel.find({ applicationType: root._id });
     },
     application: (root, { id }) => {
-        return applicationModel.findOne({ _id: id }).populate('applicationType');
+        if (root) {
+            return applicationModel.findOne({ _id: root.application });
+        } else {
+            return applicationModel.findOne({ _id: id });
+        }
     },
     addApplication: (root, args) => {
         const model = new applicationModel(args);

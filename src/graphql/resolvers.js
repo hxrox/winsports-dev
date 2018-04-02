@@ -9,6 +9,13 @@ const resolvers = {
     ApplicationType: {
         applications: applicationsResolvers.applicationsByApplicationType
     },
+    Application: {
+        modules: modulesResolvers.modulesByApplicationId
+    },
+    Module: {
+        application: applicationsResolvers.application,
+        actions: actionsResolvers.actionsByModuleId
+    },
     Query: {
         // ApplicationTypes
         applicationTypes: applicationTypesResolvers.applicationTypes,

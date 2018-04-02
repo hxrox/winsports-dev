@@ -13,6 +13,8 @@ export default {
     },
     addModule: (root, args) => {
         const model = new moduleModel(args);
+        model.application = args.applicationId;
+        model.createdAt = new Date;
         return model.save();
     },
     editModule: (root, { id, name, description, moduleId, applicationId, active }) => {
@@ -36,5 +38,8 @@ export default {
     },
     deleteModule: (root, { id }) => {
         return moduleModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    },
+    modulesByApplicationId: (root) => {
+        return moduleModel.find({ application: root._id }).populate('application').populate('module');
     }
 }

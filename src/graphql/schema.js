@@ -28,6 +28,7 @@ const typeDefs = [`
         iosId: String
         androidId: String
         applicationType: ApplicationType
+        modules: [Module]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -47,6 +48,7 @@ const typeDefs = [`
         emailConfirmed: Boolean
         emailConfirmationToken: String
         active: Boolean
+        actions: [Action]
         createdAt: Date
         createdBy: String
         updatedAt: Date
@@ -76,6 +78,7 @@ const typeDefs = [`
         active: Boolean
         module: Module
         application: Application
+        actions: [Action]
         createdAt: Date
         createdBy: String
         updatedAt: Date
@@ -141,7 +144,7 @@ const typeDefs = [`
         deleteLogicModule(id: String!): Module
         deleteModule(id: String!): Module
 
-        addAction(name: String!, description: String, moduleId: String!, applicationId: String!): Action
+        addAction(name: String!, description: String, moduleId: String!): Action
         editAction(id: String!, name: String!, description: String, moduleId: String!, active: Boolean): Action
         deleteLogicAction(id: String!): Action
         deleteAction(id: String!): Action

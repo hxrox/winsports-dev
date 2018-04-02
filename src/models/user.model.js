@@ -41,6 +41,12 @@ const userSchema = new Schema({
         type: Boolean,
         default: true
     },
+    actions: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'actions'
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now
