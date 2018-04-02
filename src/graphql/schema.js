@@ -55,6 +55,20 @@ const typeDefs = [`
         deletedBy: String
     }
 
+    type Session {
+        _id: String
+        user: User
+        application: Application
+        ipAddress: String
+        acccessToken: String
+        os: String
+        active: Boolean
+        createdAt: Date
+        logoutAt: Date
+        logoutBy: String
+        expiredAt: Date
+    }
+
     type Query {
         applicationTypes(searchTerm: String): [ApplicationType]
         applicationType(id: String!): ApplicationType
@@ -65,6 +79,8 @@ const typeDefs = [`
         users: [User]
         user(id: String!): User
         userByEmailConfirmationToken(token: String!): User
+
+        sessions: [Session]
     }
 
     type Mutation {
