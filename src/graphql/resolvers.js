@@ -7,6 +7,7 @@ import actionsResolvers from './resolvers/action.resolver';
 import rolesResolvers from './resolvers/role.resolver';
 //Negocio
 import countriesResolvers from './resolvers/country.resolver';
+import leaguesResolvers from './resolvers/league.resolver';
 
 const resolvers = {
     ApplicationType: {
@@ -35,6 +36,12 @@ const resolvers = {
         actions: actionsResolvers.actionsByIds,
         users: usersResolvers.usersByRoleId
     },
+    Country: {
+        leagues: leaguesResolvers.leaguesByCountryId
+    },
+    League: {
+        country: countriesResolvers.country
+    },
     Query: {
         // ApplicationTypes
         applicationTypes: applicationTypesResolvers.applicationTypes,
@@ -62,6 +69,9 @@ const resolvers = {
         // Paises
         countries: countriesResolvers.countries,
         country: countriesResolvers.country,
+        // Ligas
+        leagues: leaguesResolvers.leagues,
+        league: leaguesResolvers.league,
     },
     Mutation: {
         // ApplicationTyes
@@ -103,6 +113,11 @@ const resolvers = {
         editCountry: countriesResolvers.editCountry,
         deleteLogicCountry: countriesResolvers.deleteLogicCountry,
         deleteCountry: countriesResolvers.deleteCountry,
+        // Ligas
+        addLeague: leaguesResolvers.addLeague,
+        editLeague: leaguesResolvers.editLeague,
+        deleteLogicLeague: leaguesResolvers.deleteLogicLeague,
+        deleteLeague: leaguesResolvers.deleteLeague,
     }
 }
 
