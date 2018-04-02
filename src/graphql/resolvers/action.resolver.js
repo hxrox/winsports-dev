@@ -3,16 +3,20 @@ import actionModel from '../../models/action.model';
 export default {
     actions: (root, { searchTerm }) => {
         if (searchTerm) {
-            return actionModel.find({ $text: { $search: searchTerm } }).populate('module');
+            return actionModel.find({ $text: { $search: searchTerm } });
         } else {
-            return actionModel.find().populate('module');
+            return actionModel.find();
         }
     },
     actionsByModuleId: (root) => {
-        return actionModel.find({ module: root._id }).populate('module');
+        return actionModel.find({ module: root._id });
     },
     action: (root, { id }) => {
-        return actionModel.findOne({ _id: id }).populate('module');
+        if (root) {
+            return actionModel.findOne({ _id: root.action });
+        } else {
+            return actionModel.findOne({ _id: id });
+        }
     },
     addAction: (root, args) => {
         const model = new actionModel(args);

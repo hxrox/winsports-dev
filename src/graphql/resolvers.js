@@ -10,11 +10,15 @@ const resolvers = {
         applications: applicationsResolvers.applicationsByApplicationType
     },
     Application: {
+        applicationType: applicationTypesResolvers.applicationType,
         modules: modulesResolvers.modulesByApplicationId
     },
     Module: {
         application: applicationsResolvers.application,
         actions: actionsResolvers.actionsByModuleId
+    },
+    Action: {
+        module: modulesResolvers.module
     },
     Query: {
         // ApplicationTypes

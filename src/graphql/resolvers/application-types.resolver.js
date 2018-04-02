@@ -9,7 +9,11 @@ export default {
         }
     },
     applicationType: (root, { id }) => {
-        return applicationTypeModel.findOne({ _id: id });
+        if (root) {
+            return applicationTypeModel.findOne({ _id: root.applicationType });
+        } else {
+            return applicationTypeModel.findOne({ _id: id });
+        }
     },
     addApplicationType: (root, args) => {
         const model = new applicationTypeModel(args);

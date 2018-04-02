@@ -3,13 +3,17 @@ import moduleModel from '../../models/module.model';
 export default {
     modules: (root, { searchTerm }) => {
         if (searchTerm) {
-            return moduleModel.find({ $text: { $search: searchTerm } }).populate('application').populate('module');
+            return moduleModel.find({ $text: { $search: searchTerm } });
         } else {
-            return moduleModel.find().populate('application').populate('module');
+            return moduleModel.find();
         }
     },
     module: (root, { id }) => {
-        return moduleModel.findOne({ _id: id }).populate('application').populate('module');
+        if (root) {
+            return moduleModel.findOne({ _id: root.module });
+        } else {
+            return moduleModel.findOne({ _id: id });
+        }
     },
     addModule: (root, args) => {
         const model = new moduleModel(args);
@@ -40,6 +44,6 @@ export default {
         return moduleModel.findOneAndRemove({ _id: id }, { rawResult: true });
     },
     modulesByApplicationId: (root) => {
-        return moduleModel.find({ application: root._id }).populate('application').populate('module');
+        return moduleModel.find({ application: root._id });
     }
 }
