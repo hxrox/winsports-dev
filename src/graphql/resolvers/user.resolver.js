@@ -18,6 +18,9 @@ export default {
     usersByActionId: (root) => {
         return userModel.find({ actions: root._id })
     },
+    usersByRoleId: (root) => {
+        return userModel.find({ roles: root._id })
+    },
     addUser: (root, args) => {
         const model = new userModel(args);
 
@@ -35,6 +38,7 @@ export default {
                 email: args.email,
                 birthDate: args.birthDate,
                 actions: args.actions,
+                roles: args.roles,
                 updatedAt: new Date
             },
         }, { new: true });

@@ -47,6 +47,12 @@ const userSchema = new Schema({
             ref: 'actions'
         }
     ],
+    roles: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'roles'
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now

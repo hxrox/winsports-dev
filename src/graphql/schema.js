@@ -29,6 +29,7 @@ const typeDefs = [`
         androidId: String
         applicationType: ApplicationType
         modules: [Module]
+        roles: [Role]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -49,6 +50,7 @@ const typeDefs = [`
         emailConfirmationToken: String
         active: Boolean
         actions: [Action]
+        roles: [Role]
         createdAt: Date
         createdBy: String
         updatedAt: Date
@@ -75,10 +77,11 @@ const typeDefs = [`
         _id: String
         name: String
         description: String
-        active: Boolean
         module: Module
         application: Application
         actions: [Action]
+        roles: [Role]
+        active: Boolean
         createdAt: Date
         createdBy: String
         updatedAt: Date
@@ -92,6 +95,23 @@ const typeDefs = [`
         name: String
         description: String
         module: Module
+        users: [User]
+        roles: [Role]
+        active: Boolean
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
+    type Role {
+        _id: String
+        name: String
+        description: String
+        application: Application
+        actions: [Action]
         users: [User]
         active: Boolean
         createdAt: Date
@@ -120,6 +140,9 @@ const typeDefs = [`
 
         actions(searchTerm: String): [Action]
         action(id: String!): Action
+
+        roles(searchTerm: String): [Role]
+        role(id: String!): Role
     }
 
     type Mutation {
@@ -133,8 +156,8 @@ const typeDefs = [`
         deleteLogicApplication(id: String!): Application
         deleteApplication(id: String!): Application
 
-        addUser(name: String!, lastName: String!, userName: String!, email: String!, password: String!, birthDate: Date, actions: [String]): User
-        editUser(id: String, name: String!, lastName: String!, userName: String!, email: String!, birthDate: Date, actions: [String]): User
+        addUser(name: String!, lastName: String!, userName: String!, email: String!, password: String!, birthDate: Date, actions: [String], roles: [String]): User
+        editUser(id: String, name: String!, lastName: String!, userName: String!, email: String!, birthDate: Date, actions: [String], roles: [String]): User
         deleteLogicUser(id: String!): User
         deleteUser(id: String!): User
         userConfirmEmail(id: String!): User
@@ -149,6 +172,11 @@ const typeDefs = [`
         editAction(id: String!, name: String!, description: String, moduleId: String!, active: Boolean): Action
         deleteLogicAction(id: String!): Action
         deleteAction(id: String!): Action
+
+        addRole(name: String!, description: String, applicationId: String!, actions: [String]): Role
+        editRole(id: String!, name: String!, description: String, applicationId: String!, active: Boolean, actions: [String]): Role
+        deleteLogicRole(id: String!): Role
+        deleteRole(id: String!): Role
     }
 `];
 
