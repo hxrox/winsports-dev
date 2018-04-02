@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const leagueSchema = new Schema({
+const sportSchema = new Schema({
     name: {
         type: String,
         required: [true, 'name is required']
@@ -12,14 +12,6 @@ const leagueSchema = new Schema({
     },
     image: {
         type: String
-    },
-    country: {
-        type: Schema.Types.ObjectId,
-        ref: 'modules'
-    },
-    sport: {
-        type: Schema.Types.ObjectId,
-        ref: 'sports'
     },
     active: {
         type: Boolean,
@@ -49,8 +41,8 @@ const leagueSchema = new Schema({
     }
 });
 
-leagueSchema.index({ '$**': 'text' });
+sportSchema.index({ '$**': 'text' });
 
-const model = mongoose.model('leagues', leagueSchema);
+const model = mongoose.model('sports', sportSchema);
 
 export default model;

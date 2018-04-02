@@ -21,14 +21,14 @@ export default {
         model.createdAt = new Date;
         return model.save();
     },
-    editModule: (root, { id, name, description, moduleId, applicationId, active }) => {
-        return moduleModel.findOneAndUpdate({ _id: id }, {
+    editModule: (root, args) => {
+        return moduleModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                name: name,
-                description: description,
-                module: moduleId,
-                application: applicationId,
-                active: active,
+                name: args.name,
+                description: args.description,
+                module: args.moduleId,
+                application: args.applicationId,
+                active: args.active,
                 updatedAt: Date.now()
             }
         }, { new: true });

@@ -128,6 +128,23 @@ const typeDefs = [`
         code: String
         image: String
         leagues: [League]
+        stadiums: [Stadium]
+        active: Boolean
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
+    type Sport {
+        _id: String
+        name: String
+        description: String
+        image: String
+        leagues: [League]
+        stadiums: [Stadium]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -143,6 +160,22 @@ const typeDefs = [`
         description: String
         image: String
         country: Country
+        sport: Sport
+        active: Boolean
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
+    type Stadium { 
+        _id: String
+        name: String
+        image: String
+        country: Country
+        sport: Sport
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -176,9 +209,15 @@ const typeDefs = [`
 
         countries(searchTerm: String): [Country]
         country(id: String!): Country
+        
+        sports(searchTerm: String): [Sport]
+        sport(id: String!): Sport
 
         leagues(searchTerm: String): [League]
         league(id: String!): League
+        
+        stadiums(searchTerm: String): [Stadium]
+        stadium(id: String!): Stadium
     }
 
     type Mutation {
@@ -218,11 +257,21 @@ const typeDefs = [`
         editCountry(id: String!, name: String!, code: String, image: String!, active: Boolean): Country
         deleteLogicCountry(id: String!): Country
         deleteCountry(id: String!): Country
+        
+        addSport(name: String!, description: String, image: String!): Sport
+        editSport(id: String!, name: String!, description: String, image: String!, active: Boolean): Sport
+        deleteLogicSport(id: String!): Sport
+        deleteSport(id: String!): Sport
 
-        addLeague(name: String!, description: String, image: String!, countryId: String!): League
-        editLeague(id: String!, name: String!, description: String, image: String!, countryId: String!, active: Boolean): League
+        addLeague(name: String!, description: String, image: String!, countryId: String!, sportId: String!): League
+        editLeague(id: String!, name: String!, description: String, image: String!, countryId: String!, sportId: String!, active: Boolean): League
         deleteLogicLeague(id: String!): League
         deleteLeague(id: String!): League
+        
+        addStadium(name: String!, image: String!, countryId: String!, sportId: String!): Stadium
+        editStadium(id: String!, name: String!, image: String!, countryId: String!, sportId: String!, active: Boolean): Stadium
+        deleteLogicStadium(id: String!): Stadium
+        deleteStadium(id: String!): Stadium
     }
 `];
 
