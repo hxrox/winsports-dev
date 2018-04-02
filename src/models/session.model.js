@@ -10,7 +10,7 @@ const sessionSchema = new Schema({
     },
     application: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'applications',
         required: [true, 'userId is required']
     },
     ipAddress: {

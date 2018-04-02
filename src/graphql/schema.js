@@ -69,6 +69,21 @@ const typeDefs = [`
         expiredAt: Date
     }
 
+    type Module {
+        _id: String
+        name: String
+        description: String
+        active: Boolean
+        module: Module
+        application: Application
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
     type Query {
         applicationTypes(searchTerm: String): [ApplicationType]
         applicationType(id: String!): ApplicationType
@@ -76,11 +91,14 @@ const typeDefs = [`
         applications(searchTerm: String): [Application]
         application(id: String!): Application
 
-        users: [User]
+        users(searchTerm: String): [User]
         user(id: String!): User
         userByEmailConfirmationToken(token: String!): User
 
-        sessions: [Session]
+        sessions(searchTerm: String): [Session]
+
+        modules(searchTerm: String): [Module]
+        module(id: String!): Module
     }
 
     type Mutation {
@@ -100,6 +118,11 @@ const typeDefs = [`
         deleteUser(id: String!): User
         userConfirmEmail(id: String!): User
         userChangePassword(id: String!, passwordCurrent: String!, newPassword: String!, confirmPassword: String!): User
+
+        addModule(name: String!, description: String, moduleId: String, applicationId: String!): Module
+        editModule(id: String!, name: String!, description: String, moduleId: String, applicationId: String!, active: Boolean): Module
+        deleteLogicModule(id: String!): Module
+        deleteModule(id: String!): Module
     }
 `];
 
