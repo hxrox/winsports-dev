@@ -11,6 +11,9 @@ export default {
     actionsByModuleId: (root) => {
         return actionModel.find({ module: root._id });
     },
+    actionsByIds: (root) => {
+        return actionModel.find({ _id: { $in: root.actions }});
+    },
     action: (root, { id }) => {
         if (root) {
             return actionModel.findOne({ _id: root.action });

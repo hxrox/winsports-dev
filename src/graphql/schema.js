@@ -91,8 +91,9 @@ const typeDefs = [`
         _id: String
         name: String
         description: String
-        active: Boolean
         module: Module
+        users: [User]
+        active: Boolean
         createdAt: Date
         createdBy: String
         updatedAt: Date
@@ -132,8 +133,8 @@ const typeDefs = [`
         deleteLogicApplication(id: String!): Application
         deleteApplication(id: String!): Application
 
-        addUser(name: String!, lastName: String!, userName: String!, email: String!, password: String!, birthDate: Date): User
-        editUser(id: String, name: String!, lastName: String!, userName: String!, email: String!, birthDate: Date): User
+        addUser(name: String!, lastName: String!, userName: String!, email: String!, password: String!, birthDate: Date, actions: [String]): User
+        editUser(id: String, name: String!, lastName: String!, userName: String!, email: String!, birthDate: Date, actions: [String]): User
         deleteLogicUser(id: String!): User
         deleteUser(id: String!): User
         userConfirmEmail(id: String!): User

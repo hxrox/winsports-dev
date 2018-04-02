@@ -18,7 +18,11 @@ const resolvers = {
         actions: actionsResolvers.actionsByModuleId
     },
     Action: {
+        users: usersResolvers.usersByActionId,
         module: modulesResolvers.module
+    },
+    User: {
+        actions: actionsResolvers.actionsByIds
     },
     Query: {
         // ApplicationTypes

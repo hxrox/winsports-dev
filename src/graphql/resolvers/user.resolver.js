@@ -4,16 +4,19 @@ import bcrypt from 'bcrypt';
 export default {
     users: (root, { searchTerm }) => {
         if (searchTerm) {
-            return userModel.find({ $text: { $search: searchTerm } }).populate('actions');
+            return userModel.find({ $text: { $search: searchTerm } });
         } else {
-            return userModel.find({}).populate('actions');
+            return userModel.find({});
         }
     },
     user: (root, { id }) => {
-        return userModel.findOne({ _id: id }).populate('actions');
+        return userModel.findOne({ _id: id });
     },
     userByEmailConfirmationToken: (root, { token }) => {
-        return userModel.findOne({ emailConfirmationToken: token }).populate('actions');
+        return userModel.findOne({ emailConfirmationToken: token });
+    },
+    usersByActionId: (root) => {
+        return userModel.find({ actions: root._id })
     },
     addUser: (root, args) => {
         const model = new userModel(args);
@@ -31,6 +34,7 @@ export default {
                 userName: args.userName,
                 email: args.email,
                 birthDate: args.birthDate,
+                actions: args.actions,
                 updatedAt: new Date
             },
         }, { new: true });
