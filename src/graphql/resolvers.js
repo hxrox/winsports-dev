@@ -5,6 +5,8 @@ import sessionsResolvers from './resolvers/session.resolver';
 import modulesResolvers from './resolvers/module.resolver';
 import actionsResolvers from './resolvers/action.resolver';
 import rolesResolvers from './resolvers/role.resolver';
+//Negocio
+import countriesResolvers from './resolvers/country.resolver';
 
 const resolvers = {
     ApplicationType: {
@@ -55,6 +57,11 @@ const resolvers = {
         // Roles
         roles: rolesResolvers.roles,
         role: rolesResolvers.role,
+
+        // Reglas de negocio
+        // Paises
+        countries: countriesResolvers.countries,
+        country: countriesResolvers.country,
     },
     Mutation: {
         // ApplicationTyes
@@ -89,6 +96,13 @@ const resolvers = {
         editRole: rolesResolvers.editRole,
         deleteLogicRole: rolesResolvers.deleteLogicRole,
         deleteRole: rolesResolvers.deleteRole,
+
+        //Negocio
+        // Paises
+        addCountry: countriesResolvers.addCountry,
+        editCountry: countriesResolvers.editCountry,
+        deleteLogicCountry: countriesResolvers.deleteLogicCountry,
+        deleteCountry: countriesResolvers.deleteCountry,
     }
 }
 
