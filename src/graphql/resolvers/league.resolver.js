@@ -14,6 +14,9 @@ export default {
     leaguesBySportId: (root, { searchTerm }) => {
         return leagueModel.find({ sport: root._id });
     },
+    leaguesByIds: (root) => {
+        return leagueModel.find({ _id: { $in: root.leagues }});
+    },
     league: (root, { id }) => {
         if (root) {
             return leagueModel.findOne({ _id: root.module });

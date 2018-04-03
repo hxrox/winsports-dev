@@ -129,6 +129,7 @@ const typeDefs = [`
         image: String
         leagues: [League]
         stadiums: [Stadium]
+        teams: [Team]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -145,6 +146,7 @@ const typeDefs = [`
         image: String
         leagues: [League]
         stadiums: [Stadium]
+        teams: [Team]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -161,6 +163,7 @@ const typeDefs = [`
         image: String
         country: Country
         sport: Sport
+        teams: [Team]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -176,6 +179,25 @@ const typeDefs = [`
         image: String
         country: Country
         sport: Sport
+        team: Team
+        active: Boolean
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
+    type Team {
+        _id: String
+        name: String
+        shortName: String
+        image: String
+        sport: Sport
+        stadium: Stadium
+        country: Country
+        leagues: [League]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -218,6 +240,9 @@ const typeDefs = [`
         
         stadiums(searchTerm: String): [Stadium]
         stadium(id: String!): Stadium
+        
+        teams(searchTerm: String): [Team]
+        team(id: String!): Team
     }
 
     type Mutation {
@@ -272,6 +297,11 @@ const typeDefs = [`
         editStadium(id: String!, name: String!, image: String!, countryId: String!, sportId: String!, active: Boolean): Stadium
         deleteLogicStadium(id: String!): Stadium
         deleteStadium(id: String!): Stadium
+        
+        addTeam(name: String!, shortName: String!, image: String!, countryId: String!, sportId: String!, stadiumId: String!, leagues: [String]): Team
+        editTeam(id: String!, name: String!, shortName: String!, image: String!, countryId: String!, sportId: String!, stadiumId: String!, leagues: [String], active: Boolean): Team
+        deleteLogicTeam(id: String!): Team
+        deleteTeam(id: String!): Team
     }
 `];
 

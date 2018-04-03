@@ -10,6 +10,7 @@ import countriesResolvers from './resolvers/country.resolver';
 import sportsResolvers from './resolvers/sport.resolver';
 import leaguesResolvers from './resolvers/league.resolver';
 import stadiumsResolvers from './resolvers/stadium.resolver';
+import teamsResolvers from './resolvers/team.resolver';
 
 const resolvers = {
     ApplicationType: {
@@ -40,19 +41,29 @@ const resolvers = {
     },
     Country: {
         leagues: leaguesResolvers.leaguesByCountryId,
-        stadiums: stadiumsResolvers.stadiumsByCountryId
+        stadiums: stadiumsResolvers.stadiumsByCountryId,
+        teams: teamsResolvers.teamsByCountryId
     },
     Sport: {
         leagues: leaguesResolvers.leaguesBySportId,
-        stadiums: stadiumsResolvers.stadiumsBySportId
+        stadiums: stadiumsResolvers.stadiumsBySportId,
+        teams: teamsResolvers.teamsBySportId,
     },
     League: {
         sport: sportsResolvers.sport,
-        country: countriesResolvers.country
+        country: countriesResolvers.country,
+        teams: teamsResolvers.teamsByLeagueId
     },
     Stadium: {
         sport: sportsResolvers.sport,
-        country: countriesResolvers.country
+        country: countriesResolvers.country,
+        team: teamsResolvers.teamsByStadiumId
+    },
+    Team: {
+        sport: sportsResolvers.sport,
+        country: countriesResolvers.country,
+        stadium: stadiumsResolvers.stadium,
+        leagues: leaguesResolvers.leaguesByIds
     },
     Query: {
         // ApplicationTypes
@@ -90,6 +101,9 @@ const resolvers = {
         // Ligas
         stadiums: stadiumsResolvers.stadiums,
         stadium: stadiumsResolvers.stadium,
+        // Teams
+        teams: teamsResolvers.teams,
+        team: teamsResolvers.team,
     },
     Mutation: {
         // ApplicationTyes
@@ -146,6 +160,11 @@ const resolvers = {
         editStadium: stadiumsResolvers.editStadium,
         deleteLogicStadium: stadiumsResolvers.deleteLogicStadium,
         deleteStadium: stadiumsResolvers.deleteStadium,
+        // Teams
+        addTeam: teamsResolvers.addTeam,
+        editTeam: teamsResolvers.editTeam,
+        deleteLogicTeam: teamsResolvers.deleteLogicTeam,
+        deleteTeam: teamsResolvers.deleteTeam,
     }
 }
 
