@@ -80,7 +80,6 @@ const typeDefs = [`
         module: Module
         application: Application
         actions: [Action]
-        roles: [Role]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -244,6 +243,25 @@ const typeDefs = [`
         endAt: Date
     }
 
+    type PaymentMethod {
+        _id: String
+        name: String
+        icon: String
+        iconIonic: String
+        events: [Event]
+        active: Boolean
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
+    type Event {
+        _id: String
+    }
+
     type Query {
         applicationTypes(searchTerm: String): [ApplicationType]
         applicationType(id: String!): ApplicationType
@@ -286,6 +304,9 @@ const typeDefs = [`
 
         games(searchTerm: String): [Game]
         game(id: String!): Game
+
+        paymentMethods(searchTerm: String): [PaymentMethod]
+        paymentMethod(id: String!): PaymentMethod
     }
 
     type Mutation {
@@ -355,6 +376,11 @@ const typeDefs = [`
         addGoalVisitorGame(id: String!): Game
         removeGoalVisitorGame(id: String!): Game
         closeGame(id: String!): Game
+
+        addPaymentMethod(name: String!, icon: String!, iconIonic: String!): PaymentMethod
+        editPaymentMethod(id: String!, name: String!, icon: String!, iconIonic: String!, active: Boolean): PaymentMethod
+        deleteLogicPaymentMethod(id: String!): PaymentMethod
+        deletePaymentMethod(id: String!): PaymentMethod
     }
 `];
 

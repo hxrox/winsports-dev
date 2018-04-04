@@ -13,6 +13,7 @@ import stadiumsResolvers from './resolvers/stadium.resolver';
 import teamsResolvers from './resolvers/team.resolver';
 import questionsResolvers from './resolvers/question.resolver';
 import gamesResolvers from './resolvers/game.resolver';
+import paymentMethodsResolvers from './resolvers/payment-method.resolver';
 
 const resolvers = {
     ApplicationType: {
@@ -132,6 +133,9 @@ const resolvers = {
         // Games
         games: gamesResolvers.games,
         game: gamesResolvers.game,
+        // PaymentMethods
+        paymentMethods: paymentMethodsResolvers.paymentMethods,
+        paymentMethod: paymentMethodsResolvers.paymentMethod,
     },
     Mutation: {
         // ApplicationTyes
@@ -202,7 +206,12 @@ const resolvers = {
         removeGoalLocalGame: gamesResolvers.removeGoalLocalGame,
         addGoalVisitorGame: gamesResolvers.addGoalVisitorGame,
         removeGoalVisitorGame: gamesResolvers.removeGoalVisitorGame,
-        closeGame: gamesResolvers.closeGame
+        closeGame: gamesResolvers.closeGame,
+        // Métodos de pago
+        addPaymentMethod: paymentMethodsResolvers.addPaymentMethod,
+        editPaymentMethod: paymentMethodsResolvers.editPaymentMethod,
+        deleteLogicPaymentMethod: paymentMethodsResolvers.deleteLogicPaymentMethod,
+        deletePaymentMethod: paymentMethodsResolvers.deletePaymentMethod,
     }
 }
 
