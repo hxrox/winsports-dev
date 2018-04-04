@@ -193,11 +193,16 @@ const resolvers = {
         editTeam: teamsResolvers.editTeam,
         deleteLogicTeam: teamsResolvers.deleteLogicTeam,
         deleteTeam: teamsResolvers.deleteTeam,
-        // Teams
+        // Games
         addGame: gamesResolvers.addGame,
         editGame: gamesResolvers.editGame,
         deleteLogicGame: gamesResolvers.deleteLogicGame,
         deleteGame: gamesResolvers.deleteGame,
+        addGoalLocalGame: gamesResolvers.addGoalLocalGame,
+        removeGoalLocalGame: gamesResolvers.removeGoalLocalGame,
+        addGoalVisitorGame: gamesResolvers.addGoalVisitorGame,
+        removeGoalVisitorGame: gamesResolvers.removeGoalVisitorGame,
+        closeGame: gamesResolvers.closeGame
     }
 }
 

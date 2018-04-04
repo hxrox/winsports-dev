@@ -50,9 +50,10 @@ export default {
     editGame: (root, args) => {
         return gameModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                name: args.name,
-                shortName: args.shortName,
-                image: args.image,
+                localTeam: args.localTeamId,
+                visitorTeam: args.visitorTeamId,
+                localTeamResult: args.localTeamResult,
+                visiorTeamResult: args.visiorTeamResult,
                 country: args.countryId,
                 sport: args.sportId,
                 stadium: args.stadiumId,
@@ -72,5 +73,40 @@ export default {
     },
     deleteGame: (root, { id }) => {
         return gameModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    },
+    addGoalLocalGame: (root, { id }) => {
+        return gameModel.findOneAndUpdate({ _id: id }, {
+            $inc: {
+                localTeamResult: 1
+            }
+        }, { new: true });
+    },
+    removeGoalLocalGame: (root, { id }) => {
+        return gameModel.findOneAndUpdate({ _id: id }, {
+            $inc: {
+                localTeamResult: -1
+            }
+        }, { new: true });
+    },
+    addGoalVisitorGame: (root, { id }) => {
+        return gameModel.findOneAndUpdate({ _id: id }, {
+            $inc: {
+                visitorTeamResult: 1
+            }
+        }, { new: true });
+    },
+    removeGoalVisitorGame: (root, { id }) => {
+        return gameModel.findOneAndUpdate({ _id: id }, {
+            $inc: {
+                visitorTeamResult: -1
+            }
+        }, { new: true });
+    },
+    closeGame: (root, { id }) => {
+        return gameModel.findOneAndUpdate({ _id: id }, {
+            $set: {
+                endAt: Date.now()
+            }
+        }, { new: true });
     }
 }
