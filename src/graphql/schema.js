@@ -130,6 +130,7 @@ const typeDefs = [`
         leagues: [League]
         stadiums: [Stadium]
         teams: [Team]
+        games: [Game]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -147,6 +148,8 @@ const typeDefs = [`
         leagues: [League]
         stadiums: [Stadium]
         teams: [Team]
+        questions: [Question]
+        games: [Game]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -164,6 +167,7 @@ const typeDefs = [`
         country: Country
         sport: Sport
         teams: [Team]
+        games: [Game]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -180,6 +184,7 @@ const typeDefs = [`
         country: Country
         sport: Sport
         team: Team
+        games: [Game]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -198,6 +203,8 @@ const typeDefs = [`
         stadium: Stadium
         country: Country
         leagues: [League]
+        localGames: [Game]
+        visitorGames: [Game]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -205,6 +212,36 @@ const typeDefs = [`
         updatedBy: String
         deletedAt: Date
         deletedBy: String
+    }
+
+    type Question { 
+        _id: String
+        name: String
+        point: Int
+        sport: Sport
+        games: [Game]
+        active: Boolean
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
+    type Game {
+        _id: String
+        localTeam: Team
+        visitorTeam: Team
+        localTeamResult: Int
+        visitorTeamResult: Int
+        questions: [Question]
+        sport: Sport
+        stadium: Stadium
+        country: Country
+        league: League
+        startAt: Date
+        endAt: Date
     }
 
     type Query {
@@ -243,6 +280,12 @@ const typeDefs = [`
         
         teams(searchTerm: String): [Team]
         team(id: String!): Team
+        
+        questions(searchTerm: String): [Question]
+        question(id: String!): Question
+
+        games(searchTerm: String): [Game]
+        game(id: String!): Game
     }
 
     type Mutation {
@@ -302,6 +345,16 @@ const typeDefs = [`
         editTeam(id: String!, name: String!, shortName: String!, image: String!, countryId: String!, sportId: String!, stadiumId: String!, leagues: [String], active: Boolean): Team
         deleteLogicTeam(id: String!): Team
         deleteTeam(id: String!): Team
+        
+        addGame(localTeamId: String!, visitorTeamId: String!, startAt: Date!, countryId: String!, sportId: String!, stadiumId: String!, leagueId: String!, questions: [String!]): Game
+        editGame(id: String!, localTeamId: String!, visitorTeamId: String!, startAt: Date!, localTeamResult: Int!, visitorTeamResult: Int!, countryId: String!, sportId: String!, stadiumId: String!, leagueId: String!, questions: [String!], active: Boolean): Game
+        deleteLogicGame(id: String!): Game
+        deleteGame(id: String!): Game
+        addGoalLocalGame(id: String!): Game
+        removeGoalLocalGame(id: String!): Game
+        addGoalVisitorGame(id: String!): Game
+        removeGoalVisitorGame(id: String!): Game
+        closeGame(id: String!): Game
     }
 `];
 

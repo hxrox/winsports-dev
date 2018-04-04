@@ -11,6 +11,8 @@ import sportsResolvers from './resolvers/sport.resolver';
 import leaguesResolvers from './resolvers/league.resolver';
 import stadiumsResolvers from './resolvers/stadium.resolver';
 import teamsResolvers from './resolvers/team.resolver';
+import questionsResolvers from './resolvers/question.resolver';
+import gamesResolvers from './resolvers/game.resolver';
 
 const resolvers = {
     ApplicationType: {
@@ -42,28 +44,48 @@ const resolvers = {
     Country: {
         leagues: leaguesResolvers.leaguesByCountryId,
         stadiums: stadiumsResolvers.stadiumsByCountryId,
-        teams: teamsResolvers.teamsByCountryId
+        teams: teamsResolvers.teamsByCountryId,
+        games: gamesResolvers.gamesByCountryId
     },
     Sport: {
         leagues: leaguesResolvers.leaguesBySportId,
         stadiums: stadiumsResolvers.stadiumsBySportId,
         teams: teamsResolvers.teamsBySportId,
+        questions: questionsResolvers.questionsBySportId,
+        games: gamesResolvers.gamesBySportId
     },
     League: {
         sport: sportsResolvers.sport,
         country: countriesResolvers.country,
-        teams: teamsResolvers.teamsByLeagueId
+        teams: teamsResolvers.teamsByLeagueId,
+        games: gamesResolvers.gamesByLeagueId
     },
     Stadium: {
         sport: sportsResolvers.sport,
         country: countriesResolvers.country,
-        team: teamsResolvers.teamsByStadiumId
+        team: teamsResolvers.teamsByStadiumId,
+        games: gamesResolvers.gamesByStadiumId
     },
     Team: {
         sport: sportsResolvers.sport,
         country: countriesResolvers.country,
         stadium: stadiumsResolvers.stadium,
-        leagues: leaguesResolvers.leaguesByIds
+        leagues: leaguesResolvers.leaguesByIds,
+        localGames: gamesResolvers.gamesByLocalTeamId,
+        visitorGames: gamesResolvers.gamesByVisitorTeamId
+    },
+    Question: {
+        sport: sportsResolvers.sport,
+        games: gamesResolvers.gamesByQuestionId
+    },
+    Game: {
+        localTeam: teamsResolvers.teamByLocalTeam,
+        visitorTeam: teamsResolvers.teamByVisitorTeam,
+        questions: questionsResolvers.questionsByIds,
+        sport: sportsResolvers.sport,
+        stadium: stadiumsResolvers.stadium,
+        country: countriesResolvers.country,
+        league: leaguesResolvers.league
     },
     Query: {
         // ApplicationTypes
@@ -104,6 +126,12 @@ const resolvers = {
         // Teams
         teams: teamsResolvers.teams,
         team: teamsResolvers.team,
+        // Questions
+        questions: questionsResolvers.questions,
+        question: questionsResolvers.question,
+        // Games
+        games: gamesResolvers.games,
+        game: gamesResolvers.game,
     },
     Mutation: {
         // ApplicationTyes
@@ -165,6 +193,16 @@ const resolvers = {
         editTeam: teamsResolvers.editTeam,
         deleteLogicTeam: teamsResolvers.deleteLogicTeam,
         deleteTeam: teamsResolvers.deleteTeam,
+        // Games
+        addGame: gamesResolvers.addGame,
+        editGame: gamesResolvers.editGame,
+        deleteLogicGame: gamesResolvers.deleteLogicGame,
+        deleteGame: gamesResolvers.deleteGame,
+        addGoalLocalGame: gamesResolvers.addGoalLocalGame,
+        removeGoalLocalGame: gamesResolvers.removeGoalLocalGame,
+        addGoalVisitorGame: gamesResolvers.addGoalVisitorGame,
+        removeGoalVisitorGame: gamesResolvers.removeGoalVisitorGame,
+        closeGame: gamesResolvers.closeGame
     }
 }
 
