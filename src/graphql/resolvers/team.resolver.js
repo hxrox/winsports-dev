@@ -27,6 +27,20 @@ export default {
             return teamModel.findOne({ _id: id });
         }
     },
+    teamByLocalTeam: (root, { id }) => {
+        if (root) {
+            return teamModel.findOne({ _id: root.localTeam });
+        } else {
+            return teamModel.findOne({ _id: id });
+        }
+    },
+    teamByVisitorTeam: (root, { id }) => {
+        if (root) {
+            return teamModel.findOne({ _id: root.visitorTeam });
+        } else {
+            return teamModel.findOne({ _id: id });
+        }
+    },
     addTeam: (root, args) => {
         const model = new teamModel(args);
         model.country = args.countryId;

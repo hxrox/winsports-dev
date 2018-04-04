@@ -19,7 +19,7 @@ export default {
     },
     league: (root, { id }) => {
         if (root) {
-            return leagueModel.findOne({ _id: root.module });
+            return leagueModel.findOne({ _id: root.league });
         } else {
             return leagueModel.findOne({ _id: id });
         }
