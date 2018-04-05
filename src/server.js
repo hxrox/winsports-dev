@@ -6,7 +6,8 @@ import mongoose from 'mongoose';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 
 import config from './server.config';
-import schema from './graphql/schema'
+import winsportsAuthProvider from './oauth/winsports.provider';
+import schema from './graphql/schema';
 
 console.log(`${new Date} - Iniciando servidor...`);
 const app = express();
@@ -16,8 +17,25 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(helmet());
 
-app.use('/graphql', graphqlExpress({ schema }));
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+app.oauth = winsportsAuthProvider;
+
+app.all('/oauth/token', app.oauth.grant());
+app.use(app.oauth.errorHandler());
+
+app.use(
+    '/graphql',
+    app.oauth.authorise(),
+    graphqlExpress((request) => ({
+        schema: schema,
+        context: {
+            user: request.user
+        }
+    }))
+);
+
+app.use('/graphiql', graphiqlExpress({
+    endpointURL: '/graphql'
+}));
 
 mongoose.connect(config.DATABASE.MONGODB_STRING_CONNECTION).then(() => {
     console.log(`${new Date} - MongoDB conectado...`);
