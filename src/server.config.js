@@ -1,6 +1,11 @@
 const config = {
     SERVER: {
-        PORT: process.env.PORT || 3000
+        PORT: process.env.PORT || 3000,
+        AUTH: {
+            GRANTS: ['password'],
+            JWT_ACCESS_TOKEN_EXPIRY_SECONDS: 31536000,
+            DEBUG: true
+        }
     },
     DATABASE: {
         MONGODB_STRING_CONNECTION: process.env.MONGODB_URI || 'mongodb://localhost:27017/winsports'

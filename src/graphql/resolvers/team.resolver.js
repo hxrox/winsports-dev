@@ -1,7 +1,8 @@
 import teamModel from '../../models/team.model';
 
 export default {
-    teams: (root, { searchTerm }) => {
+    teams: (root, { searchTerm }, context) => {
+        console.log(context);
         if (searchTerm) {
             return teamModel.find({ $text: { $search: searchTerm } });
         } else {
