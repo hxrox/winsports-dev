@@ -29,6 +29,9 @@ export default {
     gamesByVisitorTeamId: (root) => {
         return gameModel.find({ visitorTeam: root._id });
     },
+    gamesByIds: (root) => {
+        return gameModel.find({ _id: { $in: root.games }});
+    },
     game: (root, { id }) => {
         if (root) {
             return gameModel.findOne({ _id: root.game });
