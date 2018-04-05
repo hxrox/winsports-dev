@@ -45,6 +45,4 @@ const paymentMethodSchema = new Schema({
 
 paymentMethodSchema.index({ '$**': 'text' });
 
-const model = mongoose.model('payment_methods', paymentMethodSchema);
-
-export default model;
+export default mongoose.model('payment_methods', paymentMethodSchema);

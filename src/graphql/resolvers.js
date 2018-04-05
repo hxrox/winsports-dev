@@ -14,6 +14,7 @@ import teamsResolvers from './resolvers/team.resolver';
 import questionsResolvers from './resolvers/question.resolver';
 import gamesResolvers from './resolvers/game.resolver';
 import paymentMethodsResolvers from './resolvers/payment-method.resolver';
+import eventsResolvers from './resolvers/event.resolver';
 
 const resolvers = {
     ApplicationType: {
@@ -46,20 +47,23 @@ const resolvers = {
         leagues: leaguesResolvers.leaguesByCountryId,
         stadiums: stadiumsResolvers.stadiumsByCountryId,
         teams: teamsResolvers.teamsByCountryId,
-        games: gamesResolvers.gamesByCountryId
+        games: gamesResolvers.gamesByCountryId,
+        events: eventsResolvers.eventsByCountryId
     },
     Sport: {
         leagues: leaguesResolvers.leaguesBySportId,
         stadiums: stadiumsResolvers.stadiumsBySportId,
         teams: teamsResolvers.teamsBySportId,
         questions: questionsResolvers.questionsBySportId,
-        games: gamesResolvers.gamesBySportId
+        games: gamesResolvers.gamesBySportId,
+        events: eventsResolvers.eventsBySportId
     },
     League: {
         sport: sportsResolvers.sport,
         country: countriesResolvers.country,
         teams: teamsResolvers.teamsByLeagueId,
-        games: gamesResolvers.gamesByLeagueId
+        games: gamesResolvers.gamesByLeagueId,
+        events: eventsResolvers.eventsByLeagueId
     },
     Stadium: {
         sport: sportsResolvers.sport,
@@ -86,7 +90,19 @@ const resolvers = {
         sport: sportsResolvers.sport,
         stadium: stadiumsResolvers.stadium,
         country: countriesResolvers.country,
-        league: leaguesResolvers.league
+        league: leaguesResolvers.league,
+        events: eventsResolvers.eventsByGameId
+    },
+    PaymentMethod: {
+    },
+    EventPaymentMethod: {
+        paymentMethod: paymentMethodsResolvers.paymentMethod
+    },
+    Event: {
+        country: countriesResolvers.country,
+        league: leaguesResolvers.league,
+        sport: sportsResolvers.sport,
+        games: gamesResolvers.gamesByIds
     },
     Query: {
         // ApplicationTypes
@@ -133,9 +149,12 @@ const resolvers = {
         // Games
         games: gamesResolvers.games,
         game: gamesResolvers.game,
-        // PaymentMethods
+        // Metodo de pagos
         paymentMethods: paymentMethodsResolvers.paymentMethods,
         paymentMethod: paymentMethodsResolvers.paymentMethod,
+        // Eventos
+        events: eventsResolvers.events,
+        event: eventsResolvers.event,
     },
     Mutation: {
         // ApplicationTyes
@@ -212,6 +231,11 @@ const resolvers = {
         editPaymentMethod: paymentMethodsResolvers.editPaymentMethod,
         deleteLogicPaymentMethod: paymentMethodsResolvers.deleteLogicPaymentMethod,
         deletePaymentMethod: paymentMethodsResolvers.deletePaymentMethod,
+        // Eventos
+        addEvent: eventsResolvers.addEvent,
+        editEvent: eventsResolvers.editEvent,
+        deleteLogicEvent: eventsResolvers.deleteLogicEvent,
+        deleteEvent: eventsResolvers.deleteEvent,
     }
 }
 

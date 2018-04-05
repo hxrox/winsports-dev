@@ -130,6 +130,7 @@ const typeDefs = [`
         stadiums: [Stadium]
         teams: [Team]
         games: [Game]
+        events: [Event]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -149,6 +150,7 @@ const typeDefs = [`
         teams: [Team]
         questions: [Question]
         games: [Game]
+        events: [Event]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -167,6 +169,7 @@ const typeDefs = [`
         sport: Sport
         teams: [Team]
         games: [Game]
+        events: [Event]
         active: Boolean
         createdAt: Date
         createdBy: String
@@ -235,6 +238,7 @@ const typeDefs = [`
         localTeamResult: Int
         visitorTeamResult: Int
         questions: [Question]
+        events: [Event]
         sport: Sport
         stadium: Stadium
         country: Country
@@ -260,6 +264,35 @@ const typeDefs = [`
 
     type Event {
         _id: String
+        folio: Int
+        name: String
+        paymentMethods: [EventPaymentMethod]
+        isPublic: Boolean
+        isGuaranteed: Boolean
+        endAt: Date
+        closedAt: Date
+        country: Country
+        league: League
+        sport: Sport
+        games: [Game]
+        active: Boolean
+        createdAt: Date
+        createdBy: String
+        updatedAt: Date
+        updatedBy: String
+        deletedAt: Date
+        deletedBy: String
+    }
+
+    type EventPaymentMethod {
+        _id: String
+        paymentMethod: PaymentMethod
+        amount: Int
+    }
+
+    input IEventPaymentMethod {
+        paymentMethod: String!
+        amount: Int!
     }
 
     type Query {
@@ -307,6 +340,9 @@ const typeDefs = [`
 
         paymentMethods(searchTerm: String): [PaymentMethod]
         paymentMethod(id: String!): PaymentMethod
+
+        events(searchTerm: String): [Event]
+        event(id: String!): Event
     }
 
     type Mutation {
@@ -381,9 +417,12 @@ const typeDefs = [`
         editPaymentMethod(id: String!, name: String!, icon: String!, iconIonic: String!, active: Boolean): PaymentMethod
         deleteLogicPaymentMethod(id: String!): PaymentMethod
         deletePaymentMethod(id: String!): PaymentMethod
+        
+        addEvent(name: String!, paymentMethods: [IEventPaymentMethod!], isPublic: Boolean, isGuaranteed: Boolean, endAt: Date!, countryId: String!, leagueId: String!, sportId: String!, games: [String]): Event
+        editEvent(id: String!, name: String!, paymentMethods: [IEventPaymentMethod!], isPublic: Boolean, isGuaranteed: Boolean, endAt: Date!, countryId: String!, leagueId: String!, sportId: String!, games: [String], active: Boolean): Event
+        deleteLogicEvent(id: String!): Event
+        deleteEvent(id: String!): Event
     }
 `];
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
-
-export default schema;
+export default makeExecutableSchema({ typeDefs, resolvers });

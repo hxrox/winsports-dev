@@ -3,7 +3,7 @@ import autoIncrement from 'mongoose-auto-increment';
 
 import config from '../server.config';
 
-autoIncrement.initialize(mongoose.createConnection(config.DATABASE.MONGODB_STRING_CONNECTION, { useMongoClient: true }))
+autoIncrement.initialize(mongoose.createConnection(config.DATABASE.MONGODB_STRING_CONNECTION))
 
 const Schema = mongoose.Schema;
 const eventSchema = new Schema({
@@ -38,7 +38,7 @@ const eventSchema = new Schema({
     },
     endAt: {
         type: Date,
-        required: [true, 'EndAt is required']
+        required: [true, 'endAt is required']
     },
     closedAt: {
         type: Date
@@ -47,6 +47,16 @@ const eventSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'countries',
         required: [true, 'country is required']
+    },
+    league: {
+        type: Schema.Types.ObjectId,
+        ref: 'leagues',
+        required: [true, 'league is required']
+    },
+    sport: {
+        type: Schema.Types.ObjectId,
+        ref: 'sports',
+        required: [true, 'sport is required']
     },
     games: [
         {
