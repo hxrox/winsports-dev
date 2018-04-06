@@ -51,6 +51,7 @@ const typeDefs = [`
         active: Boolean
         actions: [Action]
         roles: [Role]
+        teams: [Team]
         createdAt: Date
         createdBy: String
         updatedAt: Date
@@ -362,6 +363,8 @@ const typeDefs = [`
         deleteUser(id: String!): User
         userConfirmEmail(id: String!): User
         userChangePassword(id: String!, passwordCurrent: String!, newPassword: String!, confirmPassword: String!): User
+        userAddTeam(teamId: String!): User
+        userDeleteTeam(teamId: String!): User
 
         addModule(name: String!, description: String, moduleId: String, applicationId: String!): Module
         editModule(id: String!, name: String!, description: String, moduleId: String, applicationId: String!, active: Boolean): Module

@@ -2,7 +2,6 @@ import teamModel from '../../models/team.model';
 
 export default {
     teams: (root, { searchTerm }, context) => {
-        console.log(context);
         if (searchTerm) {
             return teamModel.find({ $text: { $search: searchTerm } });
         } else {
@@ -20,6 +19,9 @@ export default {
     },
     teamsByLeagueId: (root) => {
         return teamModel.find({ leagues: root._id });
+    },
+    teamsByIds: (root) => {
+        return teamModel.find({ _id: { $in: root.teams }});
     },
     team: (root, { id }) => {
         if (root) {
