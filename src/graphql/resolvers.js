@@ -36,7 +36,8 @@ const resolvers = {
     },
     User: {
         actions: actionsResolvers.actionsByIds,
-        roles: rolesResolvers.rolesByIds
+        roles: rolesResolvers.rolesByIds,
+        teams: teamsResolvers.teamsByIds
     },
     Role: {
         application: applicationsResolvers.application,
@@ -174,6 +175,8 @@ const resolvers = {
         deleteUser: usersResolvers.deleteUser,
         userConfirmEmail: usersResolvers.userConfirmEmail,
         userChangePassword: usersResolvers.userChangePassword,
+        userAddTeam: usersResolvers.userAddTeam,
+        userDeleteTeam: usersResolvers.userDeleteTeam,
         // Modules
         addModule: modulesResolvers.addModule,
         editModule: modulesResolvers.editModule,

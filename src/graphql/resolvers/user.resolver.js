@@ -66,5 +66,19 @@ export default {
                 password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10))
             }
         }, { new: true });
+    },
+    userAddTeam: (root, args, context) => {
+        return userModel.findOneAndUpdate({ _id: context.user.id }, {
+            $push: {
+                teams: args.teamId
+            }
+        }, { new: true });
+    },
+    userDeleteTeam: (root, args, context) => {
+        return userModel.findOneAndUpdate({ _id: context.user.id }, {
+            $pull: {
+                teams: args.teamId
+            }
+        }, { new: true });
     }
 }

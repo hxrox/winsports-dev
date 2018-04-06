@@ -53,6 +53,12 @@ const userSchema = new Schema({
             ref: 'roles'
         }
     ],
+    teams: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'teams'
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now
