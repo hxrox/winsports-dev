@@ -37,6 +37,19 @@ const userSchema = new Schema({
         type: String,
         default: uuid
     },
+    balances: [
+        {
+            paymentMethod: {
+                type: Schema.Types.ObjectId,
+                ref: 'payment_methods',
+                required: [true, 'paymentMethod is required']
+            },
+            balance: {
+                type: Number,
+                default: 0
+            }
+        }
+    ],
     active: {
         type: Boolean,
         default: true

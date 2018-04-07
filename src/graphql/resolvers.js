@@ -177,6 +177,7 @@ const resolvers = {
         userChangePassword: usersResolvers.userChangePassword,
         userAddTeam: usersResolvers.userAddTeam,
         userDeleteTeam: usersResolvers.userDeleteTeam,
+        userAddBalance: usersResolvers.userAddBalance,
         // Modules
         addModule: modulesResolvers.addModule,
         editModule: modulesResolvers.editModule,

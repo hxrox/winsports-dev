@@ -80,5 +80,17 @@ export default {
                 teams: args.teamId
             }
         }, { new: true });
+    },
+    userAddBalance: (root, arg, context) => {
+        return userModel.findOneAndUpdate({ _id: context.user.id }, {
+            $pull: {
+                teams: args.teamId
+            }
+        }, { new: true });
+    },
+    userAddBalance: (root, args, context) => {
+        return userModel.findOne({ _id: context.user.id }).then(user => {
+            console.log(user);
+        });
     }
 }
