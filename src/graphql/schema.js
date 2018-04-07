@@ -52,6 +52,7 @@ const typeDefs = [`
         actions: [Action]
         roles: [Role]
         teams: [Team]
+        balances: [UserBalance]
         createdAt: Date
         createdBy: String
         updatedAt: Date
@@ -291,6 +292,12 @@ const typeDefs = [`
         amount: Int
     }
 
+    type UserBalance {
+        _id: String
+        paymentMethod: PaymentMethod
+        balance: Int
+    }
+
     input IEventPaymentMethod {
         paymentMethod: String!
         amount: Int!
@@ -365,6 +372,7 @@ const typeDefs = [`
         userChangePassword(id: String!, passwordCurrent: String!, newPassword: String!, confirmPassword: String!): User
         userAddTeam(teamId: String!): User
         userDeleteTeam(teamId: String!): User
+        userAddBalance(balance: Float!, paymentMethodId: String!): User
 
         addModule(name: String!, description: String, moduleId: String, applicationId: String!): Module
         editModule(id: String!, name: String!, description: String, moduleId: String, applicationId: String!, active: Boolean): Module

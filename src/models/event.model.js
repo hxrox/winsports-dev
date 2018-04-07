@@ -20,7 +20,7 @@ const eventSchema = new Schema({
             paymentMethod: {
                 type: Schema.Types.ObjectId,
                 ref: 'payment_methods',
-                paymentMethod: [true, 'paymentMethod is required']
+                required: [true, 'paymentMethod is required']
             },
             amount: {
                 type: Number,
