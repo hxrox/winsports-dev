@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "babel-watch src/server.js"
+    "serve": "babel-watch src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
     "jsonwebtoken": "^8.2.0",
     "mongoose": "^5.0.12",
     "mongoose-auto-increment": "^5.0.1",
+    "nodemailer": "^4.6.4",
     "oauth2-server": "^2.4.1",
     "uuid": "^3.2.1"
   }

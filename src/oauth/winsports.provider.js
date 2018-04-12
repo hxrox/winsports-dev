@@ -22,6 +22,16 @@ const model = {
     },
     getUser: (username, password, callback) => {
         userModel.findOne({ $or: [{ userName: username }, { email: username }] }).then(user => {
+
+            if (!user.emailConfirmed || user.deletedAt || !user.active) {
+                let error = {
+                    emailConfirmed: user.emailConfirmed,
+                    deletedAt: user.deletedAt,
+                    active: user.active
+                };
+                return callback(error, false);
+            }
+
             if (bcrypt.compareSync(password, user.password)) {
                 return callback(false, user);
             }
