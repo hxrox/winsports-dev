@@ -1,5 +1,8 @@
-import userModel from '../../models/user.model';
 import bcrypt from 'bcrypt';
+
+import userModel from '../../models/user.model';
+import paymentMethodModel from '../../models/payment-method.model';
+import emailSender from '../../utils/email-sender.utils';
 
 export default {
     users: (root, { searchTerm }) => {
@@ -92,5 +95,37 @@ export default {
         return userModel.findOne({ _id: context.user.id }).then(user => {
             console.log(user);
         });
-    }
+    },
+    registerUser: (root, args, context, info) => {
+        const model = new userModel(args);
+
+        model.password = bcrypt.hashSync(args.password, bcrypt.genSaltSync(10));
+        model.createdAt = new Date;
+
+        return paymentMethodModel.find().then(paymentMethods => {
+
+            model.balances = [];
+
+            paymentMethods.forEach(paymentMethod => {
+                model.balances.push({
+                    paymentMethod: paymentMethod._id,
+                    balance: 0
+                });
+            });
+
+            return model.save().then(modelSaved => {
+
+                emailSender.sendMail({
+                    from: '"WinSports" <noreply@example.com>', // sender address
+                    to: model.email, // list of receivers
+                    subject: 'Confirmación de email', // Subject line
+                    text: 'Hola usuario favor de verificar tu correo electronico.', // plain text body
+                    html: '<b>Hola usuario favor de verificar tu correo electronico.</b>' // html body
+                }).then(success => {
+                });
+
+                return modelSaved;
+            });
+        });
+    },
 }

@@ -99,6 +99,9 @@ const resolvers = {
     EventPaymentMethod: {
         paymentMethod: paymentMethodsResolvers.paymentMethod
     },
+    UserBalance: {
+        paymentMethod: paymentMethodsResolvers.paymentMethod
+    },
     Event: {
         country: countriesResolvers.country,
         league: leaguesResolvers.league,
@@ -178,6 +181,7 @@ const resolvers = {
         userAddTeam: usersResolvers.userAddTeam,
         userDeleteTeam: usersResolvers.userDeleteTeam,
         userAddBalance: usersResolvers.userAddBalance,
+        registerUser: usersResolvers.registerUser,
         // Modules
         addModule: modulesResolvers.addModule,
         editModule: modulesResolvers.editModule,

@@ -373,6 +373,7 @@ const typeDefs = [`
         userAddTeam(teamId: String!): User
         userDeleteTeam(teamId: String!): User
         userAddBalance(balance: Float!, paymentMethodId: String!): User
+        registerUser(name: String!, lastName: String!, userName: String!, email: String!, password: String!, birthDate: Date): User
 
         addModule(name: String!, description: String, moduleId: String, applicationId: String!): Module
         editModule(id: String!, name: String!, description: String, moduleId: String, applicationId: String!, active: Boolean): Module
