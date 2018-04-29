@@ -6,34 +6,34 @@ import emailSender from '../../utils/email-sender.utils';
 import openPay from '../../utils/openpay.utils';
 
 export default {
-    users: (root, { searchTerm }) => {
+    users: (root, args, context, info) => {
         if (searchTerm) {
-            return userModel.find({ $text: { $search: searchTerm } });
+            return userModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return userModel.find({});
         }
     },
-    user: (root, { id }) => {
-        return userModel.findOne({ _id: id });
+    user: (root, args, context, info) => {
+        return userModel.findOne({ _id: args.id });
     },
-    userByEmailConfirmationToken: (root, { token }) => {
-        return userModel.findOne({ emailConfirmationToken: token });
+    userByEmailConfirmationToken: (root, args, context, info) => {
+        return userModel.findOne({ emailConfirmationToken: args.token });
     },
-    usersByActionId: (root) => {
+    usersByActionId: (root, args, context, info) => {
         return userModel.find({ actions: root._id })
     },
-    usersByRoleId: (root) => {
+    usersByRoleId: (root, args, context, info) => {
         return userModel.find({ roles: root._id })
     },
-    addUser: (root, args) => {
+    addUser: (root, args, context, info) => {
         const model = new userModel(args);
 
         model.password = bcrypt.hashSync(args.password, bcrypt.genSaltSync(10));
-        model.createdAt = new Date;
+        model.createdBy = context.user.id;
 
         return model.save();
     },
-    editUser: (root, args) => {
+    editUser: (root, args, context, info) => {
         return userModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 name: args.name,
@@ -43,56 +43,66 @@ export default {
                 birthDate: args.birthDate,
                 actions: args.actions,
                 roles: args.roles,
-                updatedAt: new Date
+                updatedAt: new Date,
+                updatedBy: context.user.id
             },
         }, { new: true });
     },
-    deleteLogicUser: (root, { id }) => {
-        return userModel.findOneAndUpdate({ _id: id }, {
+    trashUser: (root, args, context, info) => {
+        return userModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteUser: (root, { id }) => {
-        return userModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    recoverUser: (root, args, context, info) => {
+        return userModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                deletedBy: context.user.id
+            }
+        }, { new: true });
     },
-    userConfirmEmail: (root, { id }) => {
-        return userModel.findOneAndUpdate({ _id: id }, {
+    deleteUser: (root, args, context, info) => {
+        return userModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
+    },
+    userConfirmEmail: (root, args, context, info) => {
+        return userModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 emailConfirmed: true
             }
         }, { new: true });
     },
-    userChangePassword: (root, { id, passwordCurrent, newPassword, confirmPassword }) => {
-        return userModel.findOneAndUpdate({ _id: id }, {
+    userChangePassword: (root, args, context, info) => {
+        return userModel.findOneAndUpdate({ _id: context.user.id }, {
             $set: {
-                password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10))
+                password: bcrypt.hashSync(args.newPassword, bcrypt.genSaltSync(10))
             }
         }, { new: true });
     },
-    userAddTeam: (root, args, context) => {
+    userAddTeam: (root, args, context, info) => {
         return userModel.findOneAndUpdate({ _id: context.user.id }, {
             $push: {
                 teams: args.teamId
             }
         }, { new: true });
     },
-    userDeleteTeam: (root, args, context) => {
+    userDeleteTeam: (root, args, context, info) => {
         return userModel.findOneAndUpdate({ _id: context.user.id }, {
             $pull: {
                 teams: args.teamId
             }
         }, { new: true });
     },
-    userAddBalance: (root, arg, context) => {
+    userAddBalance: (root, args, context, info) => {
         return userModel.findOneAndUpdate({ _id: context.user.id }, {
             $pull: {
                 teams: args.teamId
             }
         }, { new: true });
     },
-    userAddBalance: (root, args, context) => {
+    userAddBalance: (root, args, context, info) => {
         return userModel.findOne({ _id: context.user.id }).then(user => {
             console.log(user);
         });

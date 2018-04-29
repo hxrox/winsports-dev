@@ -1,58 +1,58 @@
 import teamModel from '../../models/team.model';
 
 export default {
-    teams: (root, { searchTerm }, context) => {
+    teams: (root, args, context, info) => {
         if (searchTerm) {
-            return teamModel.find({ $text: { $search: searchTerm } });
+            return teamModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return teamModel.find();
         }
     },
-    teamsByCountryId: (root, { searchTerm }) => {
+    teamsByCountryId: (root, args, context, info) => {
         return teamModel.find({ country: root._id });
     },
-    teamsBySportId: (root, { searchTerm }) => {
+    teamsBySportId: (root, args, context, info) => {
         return teamModel.find({ sport: root._id });
     },
-    teamsByStadiumId: (root, { searchTerm }) => {
+    teamsByStadiumId: (root, args, context, info) => {
         return teamModel.findOne({ stadium: root._id });
     },
-    teamsByLeagueId: (root) => {
+    teamsByLeagueId: (root, args, context, info) => {
         return teamModel.find({ leagues: root._id });
     },
-    teamsByIds: (root) => {
-        return teamModel.find({ _id: { $in: root.teams }});
+    teamsByIds: (root, args, context, info) => {
+        return teamModel.find({ _id: { $in: root.teams } });
     },
-    team: (root, { id }) => {
+    team: (root, args, context, info) => {
         if (root) {
             return teamModel.findOne({ _id: root.team });
         } else {
-            return teamModel.findOne({ _id: id });
+            return teamModel.findOne({ _id: args.id });
         }
     },
-    teamByLocalTeam: (root, { id }) => {
+    teamByLocalTeam: (root, args, context, info) => {
         if (root) {
             return teamModel.findOne({ _id: root.localTeam });
         } else {
-            return teamModel.findOne({ _id: id });
+            return teamModel.findOne({ _id: args.id });
         }
     },
-    teamByVisitorTeam: (root, { id }) => {
+    teamByVisitorTeam: (root, args, context, info) => {
         if (root) {
             return teamModel.findOne({ _id: root.visitorTeam });
         } else {
-            return teamModel.findOne({ _id: id });
+            return teamModel.findOne({ _id: args.id });
         }
     },
-    addTeam: (root, args) => {
+    addTeam: (root, args, context, info) => {
         const model = new teamModel(args);
         model.country = args.countryId;
         model.sport = args.sportId;
         model.stadium = args.stadiumId;
-        model.createdAt = new Date;
+        model.createdBy = context.user.id;
         return model.save();
     },
-    editTeam: (root, args) => {
+    editTeam: (root, args, context, info) => {
         return teamModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 name: args.name,
@@ -63,18 +63,28 @@ export default {
                 stadium: args.stadiumId,
                 leagues: args.leagues,
                 active: args.active,
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLogicTeam: (root, { id }) => {
-        return teamModel.findOneAndUpdate({ _id: id }, {
+    trashTeam: (root, args, context, info) => {
+        return teamModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteTeam: (root, { id }) => {
-        return teamModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    recoverTeam: (root, args, context, info) => {
+        return teamModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                updatedBy: context.user.id
+            }
+        }, { new: true });
+    },
+    deleteTeam: (root, args, context, info) => {
+        return teamModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
     }
 }

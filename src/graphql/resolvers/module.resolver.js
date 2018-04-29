@@ -1,27 +1,27 @@
 import moduleModel from '../../models/module.model';
 
 export default {
-    modules: (root, { searchTerm }) => {
+    modules: (root, args, context, info) => {
         if (searchTerm) {
-            return moduleModel.find({ $text: { $search: searchTerm } });
+            return moduleModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return moduleModel.find();
         }
     },
-    module: (root, { id }) => {
+    module: (root, args, context, info) => {
         if (root) {
             return moduleModel.findOne({ _id: root.module });
         } else {
-            return moduleModel.findOne({ _id: id });
+            return moduleModel.findOne({ _id: args.id });
         }
     },
-    addModule: (root, args) => {
+    addModule: (root, args, context, info) => {
         const model = new moduleModel(args);
         model.application = args.applicationId;
-        model.createdAt = new Date;
+        model.createdBy = context.user.id;
         return model.save();
     },
-    editModule: (root, args) => {
+    editModule: (root, args, context, info) => {
         return moduleModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 name: args.name,
@@ -29,21 +29,31 @@ export default {
                 module: args.moduleId,
                 application: args.applicationId,
                 active: args.active,
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLogicModule: (root, { id }) => {
-        return moduleModel.findOneAndUpdate({ _id: id }, {
+    trashModule: (root, args, context, info) => {
+        return moduleModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteModule: (root, { id }) => {
-        return moduleModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    recoverModule: (root, args, context, info) => {
+        return moduleModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                deletedBy: context.user.id
+            }
+        }, { new: true });
     },
-    modulesByApplicationId: (root) => {
+    deleteModule: (root, args, context, info) => {
+        return moduleModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
+    },
+    modulesByApplicationId: (root, args, context, info) => {
         return moduleModel.find({ application: root._id });
     }
 }

@@ -1,42 +1,55 @@
 import applicationTypeModel from '../../models/application-types.model';
 
 export default {
-    applicationTypes: (root, { searchTerm }) => {
+    applicationTypes: (root, args, context, info) => {
         if (searchTerm) {
-            return applicationTypeModel.find({ $text: { $search: searchTerm } });
+            return applicationTypeModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return applicationTypeModel.find();
         }
     },
-    applicationType: (root, { id }) => {
+    applicationType: (root, args, context, info) => {
         if (root) {
             return applicationTypeModel.findOne({ _id: root.applicationType });
         } else {
-            return applicationTypeModel.findOne({ _id: id });
+            return applicationTypeModel.findOne({ _id: args.id });
         }
     },
-    addApplicationType: (root, args) => {
+    addApplicationType: (root, args, context, info) => {
         const model = new applicationTypeModel(args);
+
+        model.createdBy = context.user.id;
+
         return model.save();
     },
-    editApplicationType: (root, { id, name, description, active }) => {
-        return applicationTypeModel.findOneAndUpdate({ _id: id }, {
+    editApplicationType: (root, args, context, info) => {
+        return applicationTypeModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                name: name,
-                description: description,
-                active: active,
-                updatedAt: Date.now()
+                name: args.name,
+                description: args.description,
+                active: args.active,
+                updatedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLogicApplicationType: (root, { id }) => {
-        return applicationTypeModel.findOneAndUpdate({ _id: id }, {
+    trashApplicationType: (root, args, context, info) => {
+        return applicationTypeModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteApplicationType: (root, { id }) => {
-        return applicationTypeModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    recoverApplicationType: (root, args, context, info) => {
+        return applicationTypeModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                deletedBy: context.user.id
+            }
+        }, { new: true });
+    },
+    deleteApplicationType: (root, args, context, info) => {
+        return applicationTypeModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
     }
 }

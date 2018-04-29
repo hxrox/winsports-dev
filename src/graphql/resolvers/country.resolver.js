@@ -1,40 +1,42 @@
 import countryModel from '../../models/country.model';
 
 export default {
-    countries: (root, { searchTerm }) => {
+    countries: (root, args, context, info) => {
         if (searchTerm) {
-            return countryModel.find({ $text: { $search: searchTerm } });
+            return countryModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return countryModel.find();
         }
     },
-    country: (root, { id }) => {
+    country: (root, args, context, info) => {
         if (root) {
             return countryModel.findOne({ _id: root.country });
         } else {
-            return countryModel.findOne({ _id: id });
+            return countryModel.findOne({ _id: args.id });
         }
     },
-    addCountry: (root, args) => {
+    addCountry: (root, args, context, info) => {
         const model = new countryModel(args);
-        model.createdAt = new Date;
+        model.createdBy = context.user.id;
         return model.save();
     },
-    editCountry: (root, args) => {
+    editCountry: (root, args, context, info) => {
         return countryModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 name: args.name,
                 code: args.code,
                 image: args.image,
                 active: args.active,
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLogicCountry: (root, { id }) => {
-        return countryModel.findOneAndUpdate({ _id: id }, {
+    trashCountry: (root, args, context, info) => {
+        return countryModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
@@ -42,11 +44,11 @@ export default {
         return countryModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 deletedAt: null,
-                deletedBy: null
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteCountry: (root, { id }) => {
-        return countryModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    deleteCountry: (root, args, context, info) => {
+        return countryModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
     }
 }

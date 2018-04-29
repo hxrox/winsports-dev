@@ -1,45 +1,45 @@
 import gameModel from '../../models/game.model';
 
 export default {
-    games: (root, { searchTerm }) => {
+    games: (root, args, context, info) => {
         if (searchTerm) {
-            return gameModel.find({ $text: { $search: searchTerm } });
+            return gameModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return gameModel.find();
         }
     },
-    gamesByCountryId: (root) => {
+    gamesByCountryId: (root, args, context, info) => {
         return gameModel.find({ country: root._id });
     },
-    gamesBySportId: (root) => {
+    gamesBySportId: (root, args, context, info) => {
         return gameModel.find({ sport: root._id });
     },
-    gamesByStadiumId: (root) => {
+    gamesByStadiumId: (root, args, context, info) => {
         return gameModel.find({ stadium: root._id });
     },
-    gamesByLeagueId: (root) => {
+    gamesByLeagueId: (root, args, context, info) => {
         return gameModel.find({ league: root._id });
     },
-    gamesByQuestionId: (root) => {
+    gamesByQuestionId: (root, args, context, info) => {
         return gameModel.find({ questions: root._id });
     },
-    gamesByLocalTeamId: (root) => {
+    gamesByLocalTeamId: (root, args, context, info) => {
         return gameModel.find({ localTeam: root._id });
     },
-    gamesByVisitorTeamId: (root) => {
+    gamesByVisitorTeamId: (root, args, context, info) => {
         return gameModel.find({ visitorTeam: root._id });
     },
-    gamesByIds: (root) => {
-        return gameModel.find({ _id: { $in: root.games }});
+    gamesByIds: (root, args, context, info) => {
+        return gameModel.find({ _id: { $in: root.games } });
     },
-    game: (root, { id }) => {
+    game: (root, args, context, info) => {
         if (root) {
             return gameModel.findOne({ _id: root.game });
         } else {
-            return gameModel.findOne({ _id: id });
+            return gameModel.findOne({ _id: args.id });
         }
     },
-    addGame: (root, args) => {
+    addGame: (root, args, context, info) => {
         const model = new gameModel(args);
         model.localTeam = args.localTeamId;
         model.visitorTeam = args.visitorTeamId;
@@ -47,10 +47,10 @@ export default {
         model.sport = args.sportId;
         model.stadium = args.stadiumId;
         model.league = args.leagueId;
-        model.createdAt = new Date;
+        model.createdBy = context.user.id;
         return model.save();
     },
-    editGame: (root, args) => {
+    editGame: (root, args, context, info) => {
         return gameModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 localTeam: args.localTeamId,
@@ -63,50 +63,60 @@ export default {
                 league: args.leagueId,
                 questions: args.questions,
                 active: args.active,
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLogicGame: (root, { id }) => {
-        return gameModel.findOneAndUpdate({ _id: id }, {
+    trashGame: (root, args, context, info) => {
+        return gameModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteGame: (root, { id }) => {
-        return gameModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    recoverGame: (root, args, context, info) => {
+        return gameModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                deletedBy: context.user.id
+            }
+        }, { new: true });
     },
-    addGoalLocalGame: (root, { id }) => {
-        return gameModel.findOneAndUpdate({ _id: id }, {
+    deleteGame: (root, args, context, info) => {
+        return gameModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
+    },
+    addGoalLocalGame: (root, args, context, info) => {
+        return gameModel.findOneAndUpdate({ _id: args.id }, {
             $inc: {
                 localTeamResult: 1
             }
         }, { new: true });
     },
-    removeGoalLocalGame: (root, { id }) => {
-        return gameModel.findOneAndUpdate({ _id: id }, {
+    removeGoalLocalGame: (root, args, context, info) => {
+        return gameModel.findOneAndUpdate({ _id: args.id }, {
             $inc: {
                 localTeamResult: -1
             }
         }, { new: true });
     },
-    addGoalVisitorGame: (root, { id }) => {
-        return gameModel.findOneAndUpdate({ _id: id }, {
+    addGoalVisitorGame: (root, args, context, info) => {
+        return gameModel.findOneAndUpdate({ _id: args.id }, {
             $inc: {
                 visitorTeamResult: 1
             }
         }, { new: true });
     },
-    removeGoalVisitorGame: (root, { id }) => {
-        return gameModel.findOneAndUpdate({ _id: id }, {
+    removeGoalVisitorGame: (root, args, context, info) => {
+        return gameModel.findOneAndUpdate({ _id: args.id }, {
             $inc: {
                 visitorTeamResult: -1
             }
         }, { new: true });
     },
-    closeGame: (root, { id }) => {
-        return gameModel.findOneAndUpdate({ _id: id }, {
+    closeGame: (root, args, context, info) => {
+        return gameModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 endAt: Date.now()
             }

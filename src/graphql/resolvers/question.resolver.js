@@ -1,51 +1,61 @@
 import questionModel from '../../models/question.model';
 
 export default {
-    questions: (root, { searchTerm }) => {
-        if (searchTerm) {
-            return questionModel.find({ $text: { $search: searchTerm } });
+    questions: (root, args, context, info) => {
+        if (args.searchTerm) {
+            return questionModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return questionModel.find();
         }
     },
-    questionsBySportId: (root) => {
+    questionsBySportId: (root, args, context, info) => {
         return questionModel.find({ sport: root._id });
     },
-    questionsByIds: (root) => {
-        return questionModel.find({ _id: { $in: root.questions }});
+    questionsByIds: (root, args, context, info) => {
+        return questionModel.find({ _id: { $in: root.questions } });
     },
-    question: (root, { id }) => {
+    question: (root, args, context, info) => {
         if (root) {
             return questionModel.findOne({ _id: root.question });
         } else {
-            return questionModel.findOne({ _id: id });
+            return questionModel.findOne({ _id: args.id });
         }
     },
-    addQuestion: (root, args) => {
+    addQuestion: (root, args, context, info) => {
         const model = new questionModel(args);
         model.sport = args.sportId;
-        model.createdAt = new Date;
+        model.createdBy = context.user.id;
         return model.save();
     },
-    editQuestion: (root, args) => {
+    editQuestion: (root, args, context, info) => {
         return questionModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 name: args.name,
                 point: args.point,
                 sport: args.sportId,
                 active: args.active,
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLogicQuestion: (root, { id }) => {
-        return questionModel.findOneAndUpdate({ _id: id }, {
+    trashQuestion: (root, args, context, info) => {
+        return questionModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteQuestion: (root, { id }) => {
-        return questionModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    recoverQuestion: (root, args, context, info) => {
+        return questionModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                deletedBy: context.user.id
+            }
+        }, { new: true });
+    },
+    deleteQuestion: (root, args, context, info) => {
+        return questionModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
     }
 }
