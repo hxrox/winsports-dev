@@ -2,7 +2,7 @@ import stadiumModel from '../../models/stadium.model';
 
 export default {
     stadiums: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return stadiumModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return stadiumModel.find();

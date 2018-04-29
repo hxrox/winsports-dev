@@ -2,7 +2,7 @@ import leagueModel from '../../models/league.model';
 
 export default {
     leagues: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return leagueModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return leagueModel.find();

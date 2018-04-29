@@ -2,7 +2,7 @@ import countryModel from '../../models/country.model';
 
 export default {
     countries: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return countryModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return countryModel.find();

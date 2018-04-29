@@ -2,7 +2,7 @@ import actionModel from '../../models/action.model';
 
 export default {
     actions: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return actionModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return actionModel.find();

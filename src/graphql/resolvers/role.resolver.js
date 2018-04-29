@@ -2,7 +2,7 @@ import roleModel from '../../models/role.model';
 
 export default {
     roles: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return roleModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return roleModel.find();

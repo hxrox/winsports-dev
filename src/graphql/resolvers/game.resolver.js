@@ -2,7 +2,7 @@ import gameModel from '../../models/game.model';
 
 export default {
     games: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return gameModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return gameModel.find();

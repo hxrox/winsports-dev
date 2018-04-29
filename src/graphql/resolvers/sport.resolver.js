@@ -2,7 +2,7 @@ import sportModel from '../../models/sport.model';
 
 export default {
     sports: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return sportModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return sportModel.find();

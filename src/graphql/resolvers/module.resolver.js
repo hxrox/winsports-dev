@@ -2,7 +2,7 @@ import moduleModel from '../../models/module.model';
 
 export default {
     modules: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return moduleModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return moduleModel.find();

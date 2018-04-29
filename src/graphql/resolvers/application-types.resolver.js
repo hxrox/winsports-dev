@@ -2,7 +2,7 @@ import applicationTypeModel from '../../models/application-types.model';
 
 export default {
     applicationTypes: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return applicationTypeModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return applicationTypeModel.find();

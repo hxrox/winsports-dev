@@ -2,7 +2,7 @@ import paymentMethodModel from '../../models/payment-method.model';
 
 export default {
     paymentMethods: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return paymentMethodModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return paymentMethodModel.find();

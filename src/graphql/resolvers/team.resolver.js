@@ -2,7 +2,7 @@ import teamModel from '../../models/team.model';
 
 export default {
     teams: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return teamModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return teamModel.find();

@@ -2,7 +2,7 @@ import applicationModel from '../../models/application.model';
 
 export default {
     applications: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return applicationModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return applicationModel.find();

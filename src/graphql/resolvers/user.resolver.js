@@ -7,7 +7,7 @@ import openPay from '../../utils/openpay.utils';
 
 export default {
     users: (root, args, context, info) => {
-        if (searchTerm) {
+        if (args.searchTerm) {
             return userModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return userModel.find({});
