@@ -1,41 +1,41 @@
 import eventModel from '../../models/event.model';
 
 export default {
-    events: (root, { searchTerm }) => {
-        if (searchTerm) {
-            return eventModel.find({ $text: { $search: searchTerm } });
+    events: (root, args, context, info) => {
+        if (args.searchTerm) {
+            return eventModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return eventModel.find();
         }
     },
-    eventsByCountryId: (root) => {
+    eventsByCountryId: (root, args, context, info) => {
         return eventModel.find({ country: root._id });
     },
-    eventsBySportId: (root) => {
+    eventsBySportId: (root, args, context, info) => {
         return eventModel.find({ sport: root._id });
     },
-    eventsByLeagueId: (root) => {
+    eventsByLeagueId: (root, args, context, info) => {
         return eventModel.find({ league: root._id });
     },
-    eventsByGameId: (root) => {
+    eventsByGameId: (root, args, context, info) => {
         return eventModel.find({ games: root._id });
     },
-    event: (root, { id }) => {
+    event: (root, args, context, info) => {
         if (root) {
             return eventModel.findOne({ _id: root.event });
         } else {
-            return eventModel.findOne({ _id: id });
+            return eventModel.findOne({ _id: args.id });
         }
     },
-    addEvent: (root, args) => {
+    addEvent: (root, args, context, info) => {
         const model = new eventModel(args);
         model.country = args.countryId;
         model.league = args.leagueId;
         model.sport = args.sportId;
-        model.createdAt = new Date;
+        model.createdBy = context.user.id;
         return model.save();
     },
-    editEvent: (root, args) => {
+    editEvent: (root, args, context, info) => {
         return eventModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 name: args.name,
@@ -49,18 +49,28 @@ export default {
                 league: args.leagueId,
                 sport: args.sportId,
                 active: args.active,
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLogicEvent: (root, { id }) => {
-        return eventModel.findOneAndUpdate({ _id: id }, {
+    trashEvent: (root, args, context, info) => {
+        return eventModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteEvent: (root, { id }) => {
-        return eventModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    recoverEvent: (root, args, context, info) => {
+        return eventModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                deletedBy: context.user.id
+            }
+        }, { new: true });
+    },
+    deleteEvent: (root, args, context, info) => {
+        return eventModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
     }
 }

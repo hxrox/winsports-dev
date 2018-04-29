@@ -1,53 +1,64 @@
 import actionModel from '../../models/action.model';
 
 export default {
-    actions: (root, { searchTerm }) => {
+    actions: (root, args, context, info) => {
         if (searchTerm) {
-            return actionModel.find({ $text: { $search: searchTerm } });
+            return actionModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return actionModel.find();
         }
     },
-    actionsByModuleId: (root) => {
+    actionsByModuleId: (root, args, context, info) => {
         return actionModel.find({ module: root._id });
     },
-    actionsByIds: (root) => {
-        return actionModel.find({ _id: { $in: root.actions }});
+    actionsByIds: (root, args, context, info) => {
+        return actionModel.find({ _id: { $in: root.actions } });
     },
-    action: (root, { id }) => {
+    action: (root, args, context, info) => {
         if (root) {
             return actionModel.findOne({ _id: root.action });
         } else {
-            return actionModel.findOne({ _id: id });
+            return actionModel.findOne({ _id: args.id });
         }
     },
-    addAction: (root, args) => {
+    addAction: (root, args, context, info) => {
         const model = new actionModel(args);
 
         model.createdAt = new Date;
+        model.createdBy = context.user.id;
         model.module = args.moduleId;
 
         return model.save();
     },
-    editAction: (root, { id, name, description, moduleId, active }) => {
+    editAction: (root, args, context, info) => {
         return actionModel.findOneAndUpdate({ _id: id }, {
             $set: {
-                name: name,
-                description: description,
-                module: moduleId,
-                active: active,
-                updatedAt: Date.now()
+                name: args.name,
+                description: args.description,
+                module: args.moduleId,
+                active: args.active,
+                updatedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLogicAction: (root, { id }) => {
-        return actionModel.findOneAndUpdate({ _id: id }, {
+    trashAction: (root, args, context, info) => {
+        return actionModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteAction: (root, { id }) => {
-        return actionModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    recoverAction: (root, args, context, info) => {
+        return actionModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                deletedBy: context.user.id
+            }
+        }, { new: true });
+    },
+    deleteAction: (root, args, context, info) => {
+        return actionModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
     }
 }

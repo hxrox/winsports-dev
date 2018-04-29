@@ -164,17 +164,20 @@ const resolvers = {
         // ApplicationTyes
         addApplicationType: applicationTypesResolvers.addApplicationType,
         editApplicationType: applicationTypesResolvers.editApplicationType,
-        deleteLogicApplicationType: applicationTypesResolvers.deleteLogicApplicationType,
+        trashApplicationType: applicationTypesResolvers.trashApplicationType,
+        recoverApplicationType: applicationTypesResolvers.recoverApplicationType,
         deleteApplicationType: applicationTypesResolvers.deleteApplicationType,
         // Applications
         addApplication: applicationsResolvers.addApplication,
         editApplication: applicationsResolvers.editApplication,
-        deleteLogicApplication: applicationsResolvers.deleteLogicApplication,
+        trashApplication: applicationsResolvers.trashApplication,
+        recoverApplication: applicationsResolvers.recoverApplication,
         deleteApplication: applicationsResolvers.deleteApplication,
         // Users
         addUser: usersResolvers.addUser,
         editUser: usersResolvers.editUser,
-        deleteLogicUser: usersResolvers.deleteLogicUser,
+        trashUser: usersResolvers.trashUser,
+        recoverUser: usersResolvers.recoverUser,
         deleteUser: usersResolvers.deleteUser,
         userConfirmEmail: usersResolvers.userConfirmEmail,
         userChangePassword: usersResolvers.userChangePassword,
@@ -186,51 +189,58 @@ const resolvers = {
         // Modules
         addModule: modulesResolvers.addModule,
         editModule: modulesResolvers.editModule,
-        deleteLogicModule: modulesResolvers.deleteLogicModule,
+        trashModule: modulesResolvers.trashModule,
+        recoverModule: modulesResolvers.recoverModule,
         deleteModule: modulesResolvers.deleteModule,
         // Actions
         addAction: actionsResolvers.addAction,
         editAction: actionsResolvers.editAction,
-        deleteLogicAction: actionsResolvers.deleteLogicAction,
+        trashAction: actionsResolvers.trashAction,
+        recoverAction: actionsResolvers.recoverAction,
         deleteAction: actionsResolvers.deleteAction,
         // Roles
         addRole: rolesResolvers.addRole,
         editRole: rolesResolvers.editRole,
-        deleteLogicRole: rolesResolvers.deleteLogicRole,
+        trashRole: rolesResolvers.trashRole,
+        recoverRole: rolesResolvers.recoverRole,
         deleteRole: rolesResolvers.deleteRole,
 
         //Negocio
         // Paises
         addCountry: countriesResolvers.addCountry,
         editCountry: countriesResolvers.editCountry,
-        deleteLogicCountry: countriesResolvers.deleteLogicCountry,
+        trashCountry: countriesResolvers.trashCountry,
         recoverCountry: countriesResolvers.recoverCountry,
         deleteCountry: countriesResolvers.deleteCountry,
         // Deports
         addSport: sportsResolvers.addSport,
         editSport: sportsResolvers.editSport,
-        deleteLogicSport: sportsResolvers.deleteLogicSport,
+        trashSport: sportsResolvers.trashSport,
         deleteSport: sportsResolvers.deleteSport,
         recoverSport: sportsResolvers.recoverSport,
         // Ligas
         addLeague: leaguesResolvers.addLeague,
         editLeague: leaguesResolvers.editLeague,
-        deleteLogicLeague: leaguesResolvers.deleteLogicLeague,
+        trashLeague: leaguesResolvers.trashLeague,
+        recoverLeague: leaguesResolvers.recoverLeague,
         deleteLeague: leaguesResolvers.deleteLeague,
         // Estadios
         addStadium: stadiumsResolvers.addStadium,
         editStadium: stadiumsResolvers.editStadium,
-        deleteLogicStadium: stadiumsResolvers.deleteLogicStadium,
+        trashStadium: stadiumsResolvers.trashStadium,
+        recoverStadium: stadiumsResolvers.recoverStadium,
         deleteStadium: stadiumsResolvers.deleteStadium,
         // Teams
         addTeam: teamsResolvers.addTeam,
         editTeam: teamsResolvers.editTeam,
-        deleteLogicTeam: teamsResolvers.deleteLogicTeam,
+        trashTeam: teamsResolvers.trashTeam,
+        recoverTeam: teamsResolvers.recoverTeam,
         deleteTeam: teamsResolvers.deleteTeam,
         // Games
         addGame: gamesResolvers.addGame,
         editGame: gamesResolvers.editGame,
-        deleteLogicGame: gamesResolvers.deleteLogicGame,
+        trashGame: gamesResolvers.trashGame,
+        recoverGame: gamesResolvers.recoverGame,
         deleteGame: gamesResolvers.deleteGame,
         addGoalLocalGame: gamesResolvers.addGoalLocalGame,
         removeGoalLocalGame: gamesResolvers.removeGoalLocalGame,
@@ -240,13 +250,21 @@ const resolvers = {
         // Métodos de pago
         addPaymentMethod: paymentMethodsResolvers.addPaymentMethod,
         editPaymentMethod: paymentMethodsResolvers.editPaymentMethod,
-        deleteLogicPaymentMethod: paymentMethodsResolvers.deleteLogicPaymentMethod,
+        trashPaymentMethod: paymentMethodsResolvers.trashPaymentMethod,
+        recoverPaymentMethod: paymentMethodsResolvers.recoverPaymentMethod,
         deletePaymentMethod: paymentMethodsResolvers.deletePaymentMethod,
         // Eventos
         addEvent: eventsResolvers.addEvent,
         editEvent: eventsResolvers.editEvent,
-        deleteLogicEvent: eventsResolvers.deleteLogicEvent,
+        trashEvent: eventsResolvers.trashEvent,
+        recoverEvent: eventsResolvers.recoverEvent,
         deleteEvent: eventsResolvers.deleteEvent,
+        //Questions
+        addQuestion: questionsResolvers.addQuestion,
+        editQuestion: questionsResolvers.editQuestion,
+        trashQuestion: questionsResolvers.trashQuestion,
+        recoverQuestion: questionsResolvers.recoverQuestion,
+        deleteQuestion: questionsResolvers.deleteQuestion,
     }
 }
 

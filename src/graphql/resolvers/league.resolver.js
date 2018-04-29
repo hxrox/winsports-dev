@@ -1,37 +1,37 @@
 import leagueModel from '../../models/league.model';
 
 export default {
-    leagues: (root, { searchTerm }) => {
+    leagues: (root, args, context, info) => {
         if (searchTerm) {
-            return leagueModel.find({ $text: { $search: searchTerm } });
+            return leagueModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return leagueModel.find();
         }
     },
-    leaguesByCountryId: (root, { searchTerm }) => {
+    leaguesByCountryId: (root, args, context, info) => {
         return leagueModel.find({ country: root._id });
     },
-    leaguesBySportId: (root, { searchTerm }) => {
+    leaguesBySportId: (root, args, context, info) => {
         return leagueModel.find({ sport: root._id });
     },
-    leaguesByIds: (root) => {
-        return leagueModel.find({ _id: { $in: root.leagues }});
+    leaguesByIds: (root, args, context, info) => {
+        return leagueModel.find({ _id: { $in: root.leagues } });
     },
-    league: (root, { id }) => {
+    league: (root, args, context, info) => {
         if (root) {
             return leagueModel.findOne({ _id: root.league });
         } else {
-            return leagueModel.findOne({ _id: id });
+            return leagueModel.findOne({ _id: args.id });
         }
     },
-    addLeague: (root, args) => {
+    addLeague: (root, args, context, info) => {
         const model = new leagueModel(args);
         model.country = args.countryId;
         model.sport = args.sportId;
-        model.createdAt = new Date;
+        model.createdBy = context.user.id;
         return model.save();
     },
-    editLeague: (root, args) => {
+    editLeague: (root, args, context, info) => {
         return leagueModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 name: args.name,
@@ -40,18 +40,28 @@ export default {
                 country: args.countryId,
                 sport: args.sportId,
                 active: args.active,
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLogicLeague: (root, { id }) => {
-        return leagueModel.findOneAndUpdate({ _id: id }, {
+    trashLeague: (root, args, context, info) => {
+        return leagueModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLeague: (root, { id }) => {
-        return leagueModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    recoverLeague: (root, args, context, info) => {
+        return leagueModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                deletedBy: context.user.id
+            }
+        }, { new: true });
+    },
+    deleteLeague: (root, args, context, info) => {
+        return leagueModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
     }
 }

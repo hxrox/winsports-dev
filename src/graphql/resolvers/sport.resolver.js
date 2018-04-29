@@ -1,40 +1,42 @@
 import sportModel from '../../models/sport.model';
 
 export default {
-    sports: (root, { searchTerm }) => {
+    sports: (root, args, context, info) => {
         if (searchTerm) {
-            return sportModel.find({ $text: { $search: searchTerm } });
+            return sportModel.find({ $text: { $search: args.searchTerm } });
         } else {
             return sportModel.find();
         }
     },
-    sport: (root, { id }) => {
+    sport: (root, args, context, info) => {
         if (root) {
             return sportModel.findOne({ _id: root.sport });
         } else {
-            return sportModel.findOne({ _id: id });
+            return sportModel.findOne({ _id: args.id });
         }
     },
-    addSport: (root, args) => {
+    addSport: (root, args, context, info) => {
         const model = new sportModel(args);
-        model.createdAt = new Date;
+        model.createdBy = context.user.id;
         return model.save();
     },
-    editSport: (root, args) => {
+    editSport: (root, args, context, info) => {
         return sportModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 name: args.name,
                 description: args.description,
                 image: args.image,
                 active: args.active,
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
+                updatedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteLogicSport: (root, { id }) => {
-        return sportModel.findOneAndUpdate({ _id: id }, {
+    trashSport: (root, args, context, info) => {
+        return sportModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
-                deletedAt: Date.now()
+                deletedAt: Date.now(),
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
@@ -42,11 +44,11 @@ export default {
         return sportModel.findOneAndUpdate({ _id: args.id }, {
             $set: {
                 deletedAt: null,
-                deletedBy: null
+                deletedBy: context.user.id
             }
         }, { new: true });
     },
-    deleteSport: (root, { id }) => {
-        return sportModel.findOneAndRemove({ _id: id }, { rawResult: true });
+    deleteSport: (root, args, context, info) => {
+        return sportModel.findOneAndRemove({ _id: args.id }, { rawResult: true });
     }
 }
