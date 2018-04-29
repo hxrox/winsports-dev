@@ -38,6 +38,14 @@ export default {
             }
         }, { new: true });
     },
+    recoverSport: (root, args, context, info) => {
+        return sportModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                deletedBy: null
+            }
+        }, { new: true });
+    },
     deleteSport: (root, { id }) => {
         return sportModel.findOneAndRemove({ _id: id }, { rawResult: true });
     }

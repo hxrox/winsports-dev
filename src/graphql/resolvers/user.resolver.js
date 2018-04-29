@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import userModel from '../../models/user.model';
 import paymentMethodModel from '../../models/payment-method.model';
 import emailSender from '../../utils/email-sender.utils';
+import openPay from '../../utils/openpay.utils';
 
 export default {
     users: (root, { searchTerm }) => {
@@ -128,4 +129,25 @@ export default {
             });
         });
     },
+    addBalance: (root, args, context, info) => {
+        var chargeRequest = {
+            'method': 'card',
+            'amount': args.balance,
+            'description': 'Cargo inicial a mi cuenta',
+            'order_id': 'oid-000511312',
+            'customer': {
+                'name': 'Juan',
+                'last_name': 'Vazquez Juarez',
+                'phone_number': '4423456723',
+                'email': 'juan.vazquez@empresa.com.mx'
+            },
+            'send_email': false,
+            'confirm': false,
+            'redirect_url': 'http://www.openpay.mx/index.html'
+        };
+        openPay.charges.create(chargeRequest, (error, body) => {
+            console.log(error)
+            console.log(body)
+        });
+    }
 }
