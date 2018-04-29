@@ -374,6 +374,7 @@ const typeDefs = [`
         userDeleteTeam(teamId: String!): User
         userAddBalance(balance: Float!, paymentMethodId: String!): User
         registerUser(name: String!, lastName: String!, userName: String!, email: String!, password: String!, birthDate: Date): User
+        addBalance(balance:Int): User
 
         addModule(name: String!, description: String, moduleId: String, applicationId: String!): Module
         editModule(id: String!, name: String!, description: String, moduleId: String, applicationId: String!, active: Boolean): Module
@@ -393,11 +394,13 @@ const typeDefs = [`
         addCountry(name: String!, code: String, image: String!): Country
         editCountry(id: String!, name: String!, code: String, image: String!, active: Boolean): Country
         deleteLogicCountry(id: String!): Country
+        recoverCountry(id: String!): Country
         deleteCountry(id: String!): Country
         
         addSport(name: String!, description: String, image: String!): Sport
         editSport(id: String!, name: String!, description: String, image: String!, active: Boolean): Sport
         deleteLogicSport(id: String!): Sport
+        recoverSport(id: String!): Sport
         deleteSport(id: String!): Sport
 
         addLeague(name: String!, description: String, image: String!, countryId: String!, sportId: String!): League

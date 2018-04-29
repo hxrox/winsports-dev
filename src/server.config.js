@@ -19,6 +19,21 @@ const config = {
             USER: 'noreply@winsports.mx',
             PASSWORD: '3m4ilwin$p0rts2018'
         }
+    },
+    OPENPAY: {
+        IS_PRODUCTION: false,
+        SANDBOX: {
+            MERCHANT_ID: 'mbksnzm4aaqpxwu10jtz',
+            PRIVATE_KEY: 'sk_1a1fc94640a0487a950782d7b63cd947',
+            PUBLIC_KEY: 'pk_77a31f6ff4ad474291c56563a7c63925',
+            URL: 'https://sandbox-api.openpay.mx/v1'
+        },
+        PRODUCTION: {
+            MERCHANT_ID: '',
+            PRIVATE_KEY: '',
+            PUBLIC_KEY: '',
+            URL: ''
+        }
     }
 }
 

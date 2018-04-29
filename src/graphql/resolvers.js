@@ -182,6 +182,7 @@ const resolvers = {
         userDeleteTeam: usersResolvers.userDeleteTeam,
         userAddBalance: usersResolvers.userAddBalance,
         registerUser: usersResolvers.registerUser,
+        addBalance: usersResolvers.addBalance,
         // Modules
         addModule: modulesResolvers.addModule,
         editModule: modulesResolvers.editModule,
@@ -203,12 +204,14 @@ const resolvers = {
         addCountry: countriesResolvers.addCountry,
         editCountry: countriesResolvers.editCountry,
         deleteLogicCountry: countriesResolvers.deleteLogicCountry,
+        recoverCountry: countriesResolvers.recoverCountry,
         deleteCountry: countriesResolvers.deleteCountry,
         // Deports
         addSport: sportsResolvers.addSport,
         editSport: sportsResolvers.editSport,
         deleteLogicSport: sportsResolvers.deleteLogicSport,
         deleteSport: sportsResolvers.deleteSport,
+        recoverSport: sportsResolvers.recoverSport,
         // Ligas
         addLeague: leaguesResolvers.addLeague,
         editLeague: leaguesResolvers.editLeague,

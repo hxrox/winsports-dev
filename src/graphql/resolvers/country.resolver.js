@@ -38,6 +38,14 @@ export default {
             }
         }, { new: true });
     },
+    recoverCountry: (root, args, context, info) => {
+        return countryModel.findOneAndUpdate({ _id: args.id }, {
+            $set: {
+                deletedAt: null,
+                deletedBy: null
+            }
+        }, { new: true });
+    },
     deleteCountry: (root, { id }) => {
         return countryModel.findOneAndRemove({ _id: id }, { rawResult: true });
     }
