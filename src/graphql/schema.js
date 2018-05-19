@@ -1,5 +1,5 @@
-import { makeExecutableSchema } from 'graphql-tools';
-import resolvers from './resolvers';
+import { makeExecutableSchema } from 'graphql-tools'
+import resolvers from './resolvers'
 
 const typeDefs = [`
     scalar Date
@@ -456,6 +456,6 @@ const typeDefs = [`
         recoverQuestion(id: String!): Question
         deleteQuestion(id: String!): Question
     }
-`];
+`]
 
-export default makeExecutableSchema({ typeDefs, resolvers });
+export default makeExecutableSchema({ typeDefs, resolvers })
