@@ -62,6 +62,7 @@ export default {
                 stadium: args.stadiumId,
                 league: args.leagueId,
                 questions: args.questions,
+                startAt: args.startAt,
                 active: args.active,
                 updatedAt: Date.now(),
                 updatedBy: context.user.id
