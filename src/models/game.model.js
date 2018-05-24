@@ -23,8 +23,13 @@ const gameSchema = new Schema({
   },
   questions: [
     {
-      type: Schema.Types.ObjectId,
-      ref: 'questions'
+      question: {
+        type: Schema.Types.ObjectId,
+        ref: 'questions'
+      },
+      answer: {
+        type: Boolean
+      }
     }
   ],
   sport: {

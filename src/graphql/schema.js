@@ -239,7 +239,7 @@ const typeDefs = [`
         visitorTeam: Team
         localTeamResult: Int
         visitorTeamResult: Int
-        questions: [Question]
+        questions: [GameQuestion]
         events: [Event]
         sport: Sport
         stadium: Stadium
@@ -301,6 +301,16 @@ const typeDefs = [`
     input IEventPaymentMethod {
         paymentMethod: String!
         amount: Int!
+    }
+
+    type GameQuestion {
+        question: Question
+        answer: Boolean
+    }
+
+    input IGameQuestion {
+        question: String!
+        answer: Boolean
     }
 
     type Query {
@@ -427,8 +437,8 @@ const typeDefs = [`
         recoverTeam(id: String!): Team
         deleteTeam(id: String!): Team
         
-        addGame(localTeamId: String!, visitorTeamId: String!, startAt: Date!, countryId: String!, sportId: String!, stadiumId: String!, leagueId: String!, questions: [String!]): Game
-        editGame(id: String!, localTeamId: String!, visitorTeamId: String!, startAt: Date!, localTeamResult: Int!, visitorTeamResult: Int!, countryId: String!, sportId: String!, stadiumId: String!, leagueId: String!, questions: [String!], active: Boolean): Game
+        addGame(localTeamId: String!, visitorTeamId: String!, startAt: Date!, countryId: String!, sportId: String!, stadiumId: String!, leagueId: String!, questions: [IGameQuestion!]): Game
+        editGame(id: String!, localTeamId: String!, visitorTeamId: String!, startAt: Date!, localTeamResult: Int!, visitorTeamResult: Int!, countryId: String!, sportId: String!, stadiumId: String!, leagueId: String!, questions: [IGameQuestion!], active: Boolean): Game
         trashGame(id: String!): Game
         recoverGame(id: String!): Game
         deleteGame(id: String!): Game
