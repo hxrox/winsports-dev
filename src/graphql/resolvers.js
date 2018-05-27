@@ -87,12 +87,14 @@ const resolvers = {
   Game: {
     localTeam: teamsResolvers.teamByLocalTeam,
     visitorTeam: teamsResolvers.teamByVisitorTeam,
-    questions: questionsResolvers.questionsByIds,
     sport: sportsResolvers.sport,
     stadium: stadiumsResolvers.stadium,
     country: countriesResolvers.country,
     league: leaguesResolvers.league,
     events: eventsResolvers.eventsByGameId
+  },
+  GameQuestion: {
+    question: questionsResolvers.question
   },
   PaymentMethod: {
   },
