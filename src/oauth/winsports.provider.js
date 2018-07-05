@@ -87,8 +87,8 @@ const model = {
     return next(false, jwt.sign(payload, secretKey, options))
   },
   getAccessToken: (accessToken, next) => {
-    const clientId = 'f3ffe8e1f804f2074aa5cc55233673b8'
-    const clientSecret = 'ZjNmZmU4ZTFmODA0ZjIwNzRhYTVjYzU1MjMzNjczYjg='
+    const clientId = '38397b6a6a5feeb233efb2242830b361'
+    const clientSecret = 'MzgzOTdiNmE2YTVmZWViMjMzZWZiMjI0MjgzMGIzNjE='
     const issuer = 'http://auth.winsports.mx/'
     const secretKey = Buffer.from(clientSecret, 'base64')
 
