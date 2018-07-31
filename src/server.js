@@ -9,7 +9,7 @@ import config from './server.config'
 import winsportsAuthProvider from './oauth/winsports.provider'
 import schema from './graphql/schema'
 
-console.log(`${new Date()} - Iniciando servidor..`)
+console.log(`${new Date()} - Iniciando servidor...`)
 const app = express()
 
 app.use(bodyParser.urlencoded({ extended: true }))
